@@ -5,12 +5,35 @@
 まず、`my-nextjs-app` という名前のウェブサイトの「家」を作りましょう。ターミナル（コマンドを入力する黒い画面）で、次のコマンドを実行してください。
 
 ```bash
-npx create-next-app@latest my-nextjs-app --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm
+npx create-next-app@latest my-nextjs-app --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack
 ```
 
 このコマンドは、Next.jsの最新版を使って、ウェブサイトの制作に必要な基本的なものをすべて自動で準備してくれます。
 
 君が作った `my-nextjs-app` は、これから君が作るウェブサイトの「家」みたいなものだよ。この家の中には、ウェブサイトを作るための色々な「部屋」や「道具」がしまってあるんだ。
+
+## npx create-next-app コマンドの解説
+
+`npx create-next-app@latest my-nextjs-app --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack`
+
+このコマンドは、いくつかの「オプション」を指定することで、君の好みに合わせたNext.jsの「家」を建ててくれるんだ。それぞれのオプションが何をしているのか見てみよう！
+
+*   `my-nextjs-app`: これは君が作るウェブサイトの「家」の名前だよ。好きな名前に変えられるよ。
+*   `--ts` (`--typescript`): 「TypeScriptを使います！」という宣言だよ。JavaScriptをより安全で書きやすくするための魔法の言葉だ。
+  - JavaScriptは自動で型を指定する（バグの温床）、TypeScriptはavaScriptに「型」という安全装置を追加したもの、と考え
+  ると分かりやすいです。TypeScriptで書いたコードは、最終的にJavaScript
+  に変換（コンパイル）されてから実行されるため、どんなJavaScriptが動く
+  環境でも使えます。最近の開発、特にチームでの開発や大規模なアプリケーションでは、書き間
+  違いなどの単純なバグを事前に防げるため、TypeScriptが非常に人気です。
+*   `--tailwind`: 「Tailwind CSSを使います！」という宣言だよ。見た目を整えるのがすごく楽になる人気の道具だ。便利な
+CSSフレームワーク。
+*   `--eslint`: 「ESLintを使います！」という宣言だよ。コードの書き間違いや、よくない書き方をチェックしてくれるお巡りさんみたいな道具だ。linterってコードチェック機能として動いてくれる。
+*   `--app`: 「App Routerを使います！」という宣言だよ。Next.jsの新しい設計図で、ウェブサイトの「部屋」（ページ）を`src/app`フォルダの中で管理するんだ。
+*   `--src-dir`: 「`src`フォルダを作ります！」という宣言だよ。君が書くコードを`src`という名前の箱にまとめて整理整頓してくれるんだ。
+*   `--import-alias "@/*"`: 「`@/*`という近道を作ります！」という宣言だよ。コードの中で他のファイルを呼び出すとき、`../../components/Button`みたいに長い道のりを書かなくても、`@/components/Button`みたいに短い近道で書けるようになるんだ。alias：よく使う長いコマンドに、あだ名をつけて短くできる仕組み。例：gemini
+*   `--use-pnpm`: 「pnpmを使います！」という宣言だよ。`npm`や`yarn`と同じように、ウェブサイトで使う「道具」を管理してくれる道具だけど、pnpmはより速くて効率的なんだ。npm: Node.jsのパッケージマネージャー/pnpm: npmの代替（速くて効率のいいバージョン）
+
+*   `--no-turbopack`: 「Turbopackは使いません」という宣言だよ。Turbopackは開発サーバーを速くするための新しい道具だけど、まだ開発中の部分もあるから、今回は使わない設定にしているんだ。これを使うと、コマンドが質問なしでスムーズに進むよ。
 
 ## 1. ウェブサイトの「家」の中を見てみよう！ (ディレクトリ構造の解説)
 
