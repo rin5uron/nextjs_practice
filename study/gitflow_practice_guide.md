@@ -58,7 +58,7 @@ git switch -c feature/add-user-profile
 
 ```bash
 # ディレクトリを作成
-mkdir -p src/app/profile
+git switch -c feature/add-user-profile
 
 # 新しいファイルを作成
 touch src/app/profile/page.tsx
