@@ -1,24 +1,26 @@
 # Next.js アプリケーションのスタートアップ講座
 
-## 0. Next.js アプリケーションを作成しよう！
+## 0. Next.js アプリケーションの準備
 
-まず、`my-nextjs-app` という名前のウェブサイトの「家」を作りましょう。ターミナル（コマンドを入力する黒い画面）で、次のコマンドを実行してください。
+このプロジェクトは、Next.jsを使って作られています。Next.jsは、ウェブサイトを素早く、効率的に作るための人気のフレームワークです。
+
+プロジェクトを作成する際には、以下のようなコマンドが使われました。
 
 ```bash
-npx create-next-app@latest my-nextjs-app --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack
+npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack
 ```
 
-このコマンドは、Next.jsの最新版を使って、ウェブサイトの制作に必要な基本的なものをすべて自動で準備してくれます。
+このコマンドは、Next.jsの最新版を使って、現在のディレクトリにウェブサイトの制作に必要な基本的なものをすべて自動で準備してくれます。
 
-君が作った `my-nextjs-app` は、これから君が作るウェブサイトの「家」みたいなものだよ。この家の中には、ウェブサイトを作るための色々な「部屋」や「道具」がしまってあるんだ。
+このプロジェクトは、これから君が作るウェブサイトの「家」みたいなものだよ。この家の中には、ウェブサイトを作るための色々な「部屋」や「道具」がしまってあるんだ。
 
 ## npx create-next-app コマンドの解説
 
-`npx create-next-app@latest my-nextjs-app --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack`
+`npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir --import-alias "@/*" --use-pnpm --no-turbopack`
 
 このコマンドは、いくつかの「オプション」を指定することで、君の好みに合わせたNext.jsの「家」を建ててくれるんだ。それぞれのオプションが何をしているのか見てみよう！
 
-*   `my-nextjs-app`: これは君が作るウェブサイトの「家」の名前だよ。好きな名前に変えられるよ。
+*   `.`: これはウェブサイトの「家」をカレントディレクトリ（今いる場所）に作る、という意味だよ。
 *   `--ts` (`--typescript`): 「TypeScriptを使います！」という宣言だよ。JavaScriptをより安全で書きやすくするための魔法の言葉だ。
   - JavaScriptは自動で型を指定する（バグの温床）、TypeScriptはavaScriptに「型」という安全装置を追加したもの、と考え
   ると分かりやすいです。TypeScriptで書いたコードは、最終的にJavaScript
@@ -37,10 +39,10 @@ CSSフレームワーク。
 
 ## 1. ウェブサイトの「家」の中を見てみよう！ (ディレクトリ構造の解説)
 
-君の `my-nextjs-app` の中には、たくさんのファイルやフォルダがあるよね。これらはそれぞれ大切な役割を持っているんだ。
+君のプロジェクトの中には、たくさんのファイルやフォルダがあるよね。これらはそれぞれ大切な役割を持っているんだ。
 
 ```
-my-nextjs-app/
+.
 ├───.next/             ← Next.jsがウェブサイトを速く動かすために、こっそり準備してくれる場所。君は触らなくていいよ。
 ├───node_modules/      ← ウェブサイトで使う「道具」がたくさんしまってある倉庫。
 ├───public/            ← ウェブサイトで使う写真やイラストなどの「公開してもいいもの」を置く場所。
@@ -66,13 +68,7 @@ my-nextjs-app/
 
 君の作った Next.js の家を動かして、ブラウザで見てみよう！
 
-まず、`my-nextjs-app` のフォルダに移動する必要があるよ。
-
-```bash
-cd my-nextjs-app
-```
-
-次に、ウェブサイトを動かすためのコマンドを入力するよ。
+プロジェクトのルートディレクトリ（今いる場所）で、ウェブサイトを動かすためのコマンドを入力するよ。
 
 ```bash
 pnpm dev

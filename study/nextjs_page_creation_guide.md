@@ -40,10 +40,10 @@ Next.js の App Router では、`src/app` ディレクトリの中にフォル�
 
 **ステップ 1: フォルダを作成する**
 
-`my-nextjs-app/src/app` の中に `news` という新しいフォルダを作成します。
+`src/app` の中に `news` という新しいフォルダを作成します。
 
 ```bash
-mkdir -p /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/news
+mkdir -p src/app/news
 ```
 
 **ステップ 2: `page.tsx` ファイルを作成する**
@@ -52,11 +52,11 @@ mkdir -p /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/news
 
 ```bash
 # ファイル作成コマンド (ターミナルで実行)
-touch /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/news/page.tsx
+touch src/app/news/page.tsx
 ```
 
 ```tsx
-// /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/news/page.tsx の内容
+// src/app/news/page.tsx の内容
 
 // Reactのコンポーネントを定義します
 // この関数が、このページに表示される内容を返します
@@ -76,10 +76,9 @@ export default function NewsPage() {
 
 **ステップ 3: 開発サーバーを起動する**
 
-`my-nextjs-app` ディレクトリに移動して、開発サーバーを起動します。
+プロジェクトのルートディレクトリで、開発サーバーを起動します。
 
 ```bash
-cd /Users/rin5uron/Desktop/study_web2/my-nextjs-app
 pnpm dev
 ```
 
@@ -93,10 +92,10 @@ pnpm dev
 
 **ステップ 1: フォルダを作成する**
 
-`my-nextjs-app/src/app` の中に `products` という新しいフォルダを作成します。
+`src/app` の中に `products` という新しいフォルダを作成します。
 
 ```bash
-mkdir -p /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/products
+mkdir -p src/app/products
 ```
 
 **ステップ 2: `page.tsx` ファイルを作成する**
@@ -105,11 +104,11 @@ mkdir -p /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/products
 
 ```bash
 # ファイル作成コマンド (ターミナルで実行)
-touch /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/products/page.tsx
+touch src/app/products/page.tsx
 ```
 
 ```tsx
-// /Users/rin5uron/Desktop/study_web2/my-nextjs-app/src/app/products/page.tsx の内容
+// src/app/products/page.tsx の内容
 
 export default function ProductsPage() {
   return (
