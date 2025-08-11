@@ -80,6 +80,9 @@ git add .
 # コミット
 git commit -m "feat: Add user profile page"
 git commit -m "feat: Add new design page"
+
+# プッシュ
+git push origin main
 ```
 
 **ステップ 4: `develop`ブランチに合流（マージ）する**
