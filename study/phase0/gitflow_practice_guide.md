@@ -1,5 +1,7 @@
 # Gitflow実践入門ガイド
-
+☑️実践完了日：2025/8/8
+<br>
+---
 このガイドでは、チームでの開発でよく使われるブランチ管理手法「Gitflow」（ギットフロー）の基本的な考え方と、実際にブランチを作成して作業する流れを学びます。
 
 ## 1. Gitflowって何？ なぜ使うの？
@@ -36,6 +38,7 @@ git branch
 
 # developブランチを作成して、そのブランチに移動する
 git switch -c develop
+git switch develop
 ```
 
 **ステップ 2: `feature`ブランチを作成する**
@@ -48,6 +51,7 @@ git branch
 
 # 'feature/add-user-profile' という名前のブランチを作成して移動する
 git switch -c feature/add-user-profile
+git switch feature/add-user-profile
 ```
 
 これで、`feature/add-user-profile`という新しいブランチが作成され、あなたはそのブランチ上で作業を始める準備ができました！
@@ -75,6 +79,10 @@ git add .
 
 # コミット
 git commit -m "feat: Add user profile page"
+git commit -m "feat: Add new design page"
+
+# プッシュ
+git push origin main
 ```
 
 **ステップ 4: `develop`ブランチに合流（マージ）する**
@@ -84,6 +92,8 @@ git commit -m "feat: Add user profile page"
 ```bash
 # developブランチに移動
 git switch develop
+git switch main
+
 
 # feature/add-user-profile ブランチの内容をdevelopブランチにマージ
 git merge feature/add-user-profile
@@ -146,7 +156,7 @@ git push -u origin <ブランチ名>
 **例: `develop`ブランチを初めてプッシュする場合**
 
 ```bash
-git push -u origin develop
+git push -u origin feature/add-user-profile
 ```
 
 このコマンドを実行することで、ローカルの`develop`ブランチがリモートの`origin/develop`として作成され、以降の変更がリモートに反映されるようになります。VercelなどのCI/CDサービスは、リモートリポジトリへのプッシュを検知して自動デプロイを行うため、このステップが非常に重要です。
@@ -163,3 +173,5 @@ Gitでは、あなたのローカルにあるリポジトリ（今作業して�
 通常、`git clone` コマンドでリポジトリをクローンすると、そのクローン元のリモートリポジトリに自動的に `origin` という名前が付けられます。これは単なる慣習的な名前であり、`upstream` や `my-remote` など、好きな名前に変更することも可能です。
 
 つまり、`git push origin develop` というコマンドは、「`develop` ブランチの変更を、`origin` という名前のリモートリポジトリにプッシュする」という意味になります。
+
+2025/8/8完了
