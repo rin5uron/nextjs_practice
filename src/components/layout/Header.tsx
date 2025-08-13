@@ -17,6 +17,7 @@ export default function Header() {
           <li><Link href="/news">お知らせ</Link></li>
           <li><Link href="/products">商品紹介</Link></li>
           <li><Link href="/profile">プロフィール</Link></li>
+          <li><Link href="/about">私について</Link></li>
         </ul>
       </nav>
     </header>
