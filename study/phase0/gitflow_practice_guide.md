@@ -92,6 +92,8 @@ git push origin main
 ```bash
 # developブランチに移動
 git switch develop
+git switch main
+
 
 # feature/add-user-profile ブランチの内容をdevelopブランチにマージ
 git merge feature/add-user-profile
