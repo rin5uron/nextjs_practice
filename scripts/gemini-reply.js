@@ -7,7 +7,15 @@ const commentBody = process.env.COMMENT_BODY;
 
 // Geminiモデルを初期化
 const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+// // ❌ NG
+// const model = genai.getGenerativeModel({ model: "gemini-pro" });
+
+// // ✅ OK（おすすめはflash）
+// const model = genai.getGenerativeModel({ model: "gemini-1.5-flash" });
+// // or
+// const model = genai.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function run() {
   try {
