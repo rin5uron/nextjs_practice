@@ -79,15 +79,15 @@ async function run() {
       const lines = text.split('\n').filter(line => line.trim() !== '');
 
       for (const line of lines) {
-        if (line.startsWith('FILE_CHANGE:')) {
-          // FILE_CHANGE指示の解析
-          const parts = line.substring('FILE_CHANGE:'.length).trim().split(':');
-          if (parts.length >= 2) {
-            const filePath = parts[0].trim();
-            const fileContent = parts.slice(1).join(':').trim(); // ファイル内容にコロンが含まれる可能性を考慮
-            console.log(`Detected FILE_CHANGE: Path=${filePath}, Content=${fileContent.substring(0, 50)}...`); // 内容は一部のみ表示
+        if (line.startsWith('FILE_CHANGE')) { // Just check for "FILE_CHANGE"
+          const regex = /FILE_CHANGE\s+"([^"]+)"\s+"([^"]+)"/; // Regex to capture path and content in quotes
+          const match = line.match(regex);
+          if (match && match.length === 3) {
+            const filePath = match[1];
+            const fileContent = match[2];
+            console.log(`Detected FILE_CHANGE: Path=${filePath}, Content=${fileContent.substring(0, 50)}...`);
             try {
-              await writeFile(filePath, fileContent); // ここでファイル書き込み関数を呼び出す
+              await writeFile(filePath, fileContent);
               processed = true;
             } catch (writeError) {
               console.error(`Failed to write file: ${filePath}`, writeError);
