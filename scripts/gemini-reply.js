@@ -56,10 +56,14 @@ async function run() {
     const text = response.text();
 
     // --- ここからGeminiの応答を解析するロジックを追加 ---
-    let processed = false; // Flag to check if any instruction was processed
+    let processed = false;
 
+    // 1. Remove markdown code blocks
+    const cleanedText = text.replace(/^```(?:json|javascript|bash|)\s*\n|\n```$/g, '').trim();
+
+    // 2. Try JSON parsing first (as before)
     try {
-      const jsonResponse = JSON.parse(text);
+      const jsonResponse = JSON.parse(cleanedText);
       if (jsonResponse.type === 'FILE_CHANGE' && jsonResponse.path && jsonResponse.content !== undefined) {
         console.log(`Detected JSON FILE_CHANGE: Path=${jsonResponse.path}, Content=${jsonResponse.content.substring(0, 50)}...`);
         await writeFile(jsonResponse.path, jsonResponse.content);
@@ -69,44 +73,54 @@ async function run() {
         await runCommand(jsonResponse.command);
         processed = true;
       }
-      // Add more JSON types if needed in the future
     } catch (e) {
-      // Not a valid JSON or not our expected JSON format, fall through to line parsing
-      console.log("Response is not a valid JSON or not in expected JSON format. Attempting line-by-line parsing.");
+      console.log("Response is not a valid JSON or not in expected JSON format. Attempting multi-line/keyword parsing.");
     }
 
-    if (!processed) { // Only attempt line-by-line parsing if JSON wasn't processed
-      const lines = text.split('\n').filter(line => line.trim() !== '');
+    // 3. If not processed by JSON, attempt multi-line/keyword parsing
+    if (!processed) {
+      const lines = cleanedText.split('\n').map(line => line.trim()).filter(line => line !== '');
+
+      let currentInstruction = null;
+      let filePath = null;
+      let fileContent = [];
+      let command = null;
 
       for (const line of lines) {
-        if (line.startsWith('FILE_CHANGE')) { // Just check for "FILE_CHANGE"
-          const regex = /FILE_CHANGE\s+"([^"]+)"\s+"([^"]+)"/; // Regex to capture path and content in quotes
-          const match = line.match(regex);
-          if (match && match.length === 3) {
-            const filePath = match[1];
-            const fileContent = match[2];
-            console.log(`Detected FILE_CHANGE: Path=${filePath}, Content=${fileContent.substring(0, 50)}...`);
-            try {
-              await writeFile(filePath, fileContent);
-              processed = true;
-            } catch (writeError) {
-              console.error(`Failed to write file: ${filePath}`, writeError);
-            }
-          } else {
-            console.warn(`Invalid FILE_CHANGE format: ${line}`);
-          }
-        } else if (line.startsWith('RUN_COMMAND:')) {
-          // RUN_COMMAND指示の解析
-          const command = line.substring('RUN_COMMAND:'.length).trim();
-          console.log(`Detected RUN_COMMAND: Command=${command}`);
-          try {
-            await runCommand(command); // ここでコマンド実行関数を呼び出す
-            processed = true;
-          } catch (commandError) {
-            console.error(`Failed to execute command: ${command}`, commandError);
-          }
-        } else {
-          console.log(`Unrecognized line (line-by-line): ${line}`);
+        if (line.startsWith('FILE_CHANGE')) {
+          currentInstruction = 'FILE_CHANGE';
+          filePath = null;
+          fileContent = [];
+        } else if (line.startsWith('RUN_COMMAND')) {
+          currentInstruction = 'RUN_COMMAND';
+          command = null;
+        } else if (currentInstruction === 'FILE_CHANGE' && line.startsWith('path:')) {
+          filePath = line.substring('path:'.length).trim();
+        } else if (currentInstruction === 'FILE_CHANGE' && line.startsWith('content:')) {
+          fileContent.push(line.substring('content:'.length).trim());
+        } else if (currentInstruction === 'RUN_COMMAND' && command === null) { // Capture the command line
+          command = line;
+        } else if (currentInstruction === 'FILE_CHANGE') { // Accumulate multi-line content
+          fileContent.push(line);
+        }
+      }
+
+      if (currentInstruction === 'FILE_CHANGE' && filePath && fileContent.length > 0) {
+        const finalContent = fileContent.join('\n'); // Join multi-line content
+        console.log(`Detected Multi-line FILE_CHANGE: Path=${filePath}, Content=${finalContent.substring(0, 50)}...`);
+        try {
+          await writeFile(filePath, finalContent);
+          processed = true;
+        } catch (writeError) {
+          console.error(`Failed to write file: ${filePath}`, writeError);
+        }
+      } else if (currentInstruction === 'RUN_COMMAND' && command) {
+        console.log(`Detected Multi-line RUN_COMMAND: Command=${command}`);
+        try {
+          await runCommand(command);
+          processed = true;
+        } catch (commandError) {
+          console.error(`Failed to execute command: ${command}`, commandError);
         }
       }
     }
