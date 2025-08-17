@@ -56,36 +56,63 @@ async function run() {
     const text = response.text();
 
     // --- ここからGeminiの応答を解析するロジックを追加 ---
-    const lines = text.split('\n').filter(line => line.trim() !== ''); // 各行に分割し、空行を削除
+    let processed = false; // Flag to check if any instruction was processed
 
-    for (const line of lines) {
-      if (line.startsWith('FILE_CHANGE:')) {
-        // FILE_CHANGE指示の解析
-        const parts = line.substring('FILE_CHANGE:'.length).trim().split(':');
-        if (parts.length >= 2) {
-          const filePath = parts[0].trim();
-          const fileContent = parts.slice(1).join(':').trim(); // ファイル内容にコロンが含まれる可能性を考慮
-          console.log(`Detected FILE_CHANGE: Path=${filePath}, Content=${fileContent.substring(0, 50)}...`); // 内容は一部のみ表示
+    try {
+      const jsonResponse = JSON.parse(text);
+      if (jsonResponse.type === 'FILE_CHANGE' && jsonResponse.path && jsonResponse.content !== undefined) {
+        console.log(`Detected JSON FILE_CHANGE: Path=${jsonResponse.path}, Content=${jsonResponse.content.substring(0, 50)}...`);
+        await writeFile(jsonResponse.path, jsonResponse.content);
+        processed = true;
+      } else if (jsonResponse.type === 'RUN_COMMAND' && jsonResponse.command) {
+        console.log(`Detected JSON RUN_COMMAND: Command=${jsonResponse.command}`);
+        await runCommand(jsonResponse.command);
+        processed = true;
+      }
+      // Add more JSON types if needed in the future
+    } catch (e) {
+      // Not a valid JSON or not our expected JSON format, fall through to line parsing
+      console.log("Response is not a valid JSON or not in expected JSON format. Attempting line-by-line parsing.");
+    }
+
+    if (!processed) { // Only attempt line-by-line parsing if JSON wasn't processed
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+
+      for (const line of lines) {
+        if (line.startsWith('FILE_CHANGE:')) {
+          // FILE_CHANGE指示の解析
+          const parts = line.substring('FILE_CHANGE:'.length).trim().split(':');
+          if (parts.length >= 2) {
+            const filePath = parts[0].trim();
+            const fileContent = parts.slice(1).join(':').trim(); // ファイル内容にコロンが含まれる可能性を考慮
+            console.log(`Detected FILE_CHANGE: Path=${filePath}, Content=${fileContent.substring(0, 50)}...`); // 内容は一部のみ表示
+            try {
+              await writeFile(filePath, fileContent); // ここでファイル書き込み関数を呼び出す
+              processed = true;
+            } catch (writeError) {
+              console.error(`Failed to write file: ${filePath}`, writeError);
+            }
+          } else {
+            console.warn(`Invalid FILE_CHANGE format: ${line}`);
+          }
+        } else if (line.startsWith('RUN_COMMAND:')) {
+          // RUN_COMMAND指示の解析
+          const command = line.substring('RUN_COMMAND:'.length).trim();
+          console.log(`Detected RUN_COMMAND: Command=${command}`);
           try {
-            await writeFile(filePath, fileContent); // ここでファイル書き込み関数を呼び出す
-          } catch (writeError) {
-            console.error(`Failed to write file: ${filePath}`, writeError);
+            await runCommand(command); // ここでコマンド実行関数を呼び出す
+            processed = true;
+          } catch (commandError) {
+            console.error(`Failed to execute command: ${command}`, commandError);
           }
         } else {
-          console.warn(`Invalid FILE_CHANGE format: ${line}`);
+          console.log(`Unrecognized line (line-by-line): ${line}`);
         }
-      } else if (line.startsWith('RUN_COMMAND:')) {
-        // RUN_COMMAND指示の解析
-        const command = line.substring('RUN_COMMAND:'.length).trim();
-        console.log(`Detected RUN_COMMAND: Command=${command}`);
-        try {
-          await runCommand(command); // ここでコマンド実行関数を呼び出す
-        } catch (commandError) {
-          console.error(`Failed to execute command: ${command}`, commandError);
-        }
-      } else {
-        console.log(`Unrecognized line: ${line}`);
       }
+    }
+
+    if (!processed) {
+      console.warn("No recognized instructions found in Gemini's response.");
     }
     // --- ここまでGeminiの応答を解析するロジックを追加 ---
 
