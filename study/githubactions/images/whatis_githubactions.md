@@ -38,3 +38,26 @@ jobs:
     runs-on: ubuntu-latest   # 実行環境
     steps:
       - run: echo "Hello GitHub Actions!"   # 実行するコマンド
+
+
+
+```
+```
+📂 このファイルがやっていること
+
+リポジトリに「push」されたら発火
+
+GitHubのクラウド上で「Ubuntu環境」を立ち上げる
+
+その中で echo "Hello GitHub Actions!" を実行
+
+結果がActionsタブに表示される
+
+🎯 一言まとめ
+
+GitHub Actions = GitHub上の自動ロボット
+
+YAMLファイル = そのロボットへの手順書
+
+.github/workflows/ に置いたYAMLが実際に動く
+```

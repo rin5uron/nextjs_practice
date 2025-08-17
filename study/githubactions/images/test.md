@@ -1,4 +1,4 @@
-'''
+```
 🎯 目的
 GitHub Issue に @gemini とコメントしたら、自動で返事がつく仕組みを試す
 まずは ダミーの返事（本物のGemini API呼び出し前）で動作確認するのがゴール
@@ -20,16 +20,51 @@ GitHub Issue に @gemini とコメントしたら、自動で返事がつく仕�
 　GitHub Actions がトリガーされる
 　↓
 　botがそのIssueにコメントを追加する（ダミー文言）
-'''
+
+```
+
 
 # ✅ 実装スナップショット
 
-# リポジトリ構成（今回追加したもの）
+## リポジトリ構成（今回追加したもの）
 .
 └─ .github/
    └─ workflows/
       └─ gemini.yml
+##  API設定
 
+- ライブラリから Gemini API を有効化
+
+- 認証情報 → APIキー作成 → コピー
+
+- GitHub の Secrets に登録
+
+  - Gemini API キーの取得手順（Google Cloud または AI Studio）
+```
+ Google Cloud Console からAPIを取得する方法
+
+以下の手順で進めていけば、APIキーの取得・確認ができます。
+
+a) Google Cloud にログイン
+
+Google Cloud Console にアクセスし、Google アカウントでログイン。
+
+必要に応じて使用する プロジェクトを選択（なければ「新しいプロジェクトを作成」）。
+
+b) Gemini API を有効化
+
+「APIとサービス」→「ライブラリ」 に移動。
+
+検索バーに「Gemini API」と入力して、対象のAPIを選択して 「有効化」 をクリック。
+
+c) 認証情報ページへ
+
+サイドメニューの 「APIとサービス」→「認証情報」 を開く。
+
+「認証情報を作成」ボタンをクリックし、「API キー」 を選ぶ。
+
+新しいAPIキーが即時に発行されます。 生成されたキーが画面に表示／コピー可能です。必要に応じて「制限を追加」（リファラ制限やIP制限など）でセキュリティ対策もできます。
+```
 # -------------------------------------------
 # ファイル: .github/workflows/gemini.yml
 # 目的: Issue/PR に @gemini を含むコメントが付いたら、ダミー返信を返す
@@ -57,6 +92,7 @@ jobs:
           repository: ${{ github.repository }}
           issue-number: ${{ github.event.issue.number }}
           body: "🤖 Geminiからの返事（ダミー）"
+```
 
 # -------------------------------------------
 # テスト手順メモ（コメントとして利用）
