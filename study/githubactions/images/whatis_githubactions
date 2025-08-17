@@ -1,0 +1,40 @@
+# 📘 GitHub Actionsとは？
+
+GitHubに組み込まれている「自動化ツール」。
+イベントをきっかけに、あらかじめ書いておいた手順を自動で実行してくれる。
+（テスト、デプロイ、Bot返信など）
+
+## 特徴
+- GitHubリポジトリに標準で搭載されている
+- 「イベント → ジョブ → ステップ」という流れで動く
+- ルールや手順は「YAMLファイル」で記述する
+
+---
+
+# 📄 YAMLファイルとは？
+
+データや設定をシンプルに書くためのファイル形式。
+GitHub Actions では「ワークフロー（自動化の手順書）」をYAMLで書く。
+
+## 基本ルール
+1. インデント（スペース）で階層を表す
+2. 「キー: 値」で設定を書く
+3. 「-」でリストを表す
+
+---
+
+# 🛠 GitHub ActionsのYAML例（Hello World）
+
+ファイル名: `.github/workflows/hello.yml`
+
+内容:
+```yaml
+name: Hello World  # ワークフローの名前
+
+on: push           # トリガー: pushされたときに実行
+
+jobs:
+  say-hello:       # ジョブの名前
+    runs-on: ubuntu-latest   # 実行環境
+    steps:
+      - run: echo "Hello GitHub Actions!"   # 実行するコマンド
