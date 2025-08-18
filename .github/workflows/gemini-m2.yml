@@ -1,0 +1,53 @@
+name: M2 - Gemini JSON -> file & command
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write   # ファイル反映をpushする場合に必要（この例はpushしないが付けておく）
+  issues: write
+
+jobs:
+  run:
+    if: contains(github.event.comment.body, '@gemini')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup minimal project for script
+        run: |
+          npm init -y
+          # ESMを使うためにtype:module化
+          node -e "let p=require('./package.json');p.type='module';require('fs').writeFileSync('package.json', JSON.stringify(p,null,2));"
+          npm i @google/genai@latest
+
+      - name: Run Gemini (M2)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: node .github/workflows/scripts/gemini-m2.js
+
+      - name: Upload artifacts (確認用)
+        uses: actions/upload-artifact@v4
+        with:
+          name: m2-output
+          path: |
+            **/*.m2.log
+            **/*.m2.out
+            docs/**
+            src/**
+
+      # ※本当にリポジトリに残したいなら下を外して使う
+      # - name: Commit & push changes (optional)
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     git add -A
+      #     git commit -m "chore: apply M2 changes (auto)" || echo "nothing to commit"
+      #     git push
