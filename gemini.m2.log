@@ -1,0 +1,16 @@
+
+$ pnpm install
+ERROR: Command failed: pnpm install
+/bin/sh: 1: pnpm: not found
+
+STDERR:
+/bin/sh: 1: pnpm: not found
+
+
+$ pnpm run build
+ERROR: Command failed: pnpm run build
+/bin/sh: 1: pnpm: not found
+
+STDERR:
+/bin/sh: 1: pnpm: not found
+
