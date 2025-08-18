@@ -1,4 +1,16 @@
-import fs from "node:fs";import path from "node:path";import { execSync } from "node:child_process";import { GoogleGenerativeAI } from "@google/genai";const API_KEY = process.env.GEMINI_API_KEY;const ISSUE = process.env.ISSUE_BODY || "";const COMMENT = process.env.COMMENT_BODY || "";if (!API_KEY) throw new Error("GEMINI_API_KEY is missing");const userInstruction = COMMENT.replace(/^[\s\S]*?@gemini\s*/i, "").trim();const preamble = `
+import fs from "node:fs";
+import path from "node:path";
+import { execSync } from "node:child_process";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const API_KEY = process.env.GEMINI_API_KEY;
+const ISSUE = process.env.ISSUE_BODY || "";
+const COMMENT = process.env.COMMENT_BODY || "";
+if (!API_KEY) throw new Error("GEMINI_API_KEY is missing");
+
+const userInstruction = COMMENT.replace(/^[\s\S]*?@gemini\s*/i, "").trim();
+
+const preamble = `
 あなたはGitHub Actions用の自動化アシスタントです。
 このリポジトリに対して必要なファイル生成・更新と、必要なシェルコマンドを提案してください。
 必ず application/json で返し、以下のスキーマに従ってください。説明文やコードブロック記号は一切出力しないこと。
@@ -19,15 +31,22 @@ import fs from "node:fs";import path from "node:path";import { execSync } from "
 - path は相対パス（例: src/..., docs/...）
 - content はUTF-8テキストのみ
 - commands は "pnpm install" / "pnpm run build" / "pnpm run lint" / "pnpm run dev" のみに限定
-`;const prompt = `
+`;
+
+const prompt = `
 # Issue
 ${ISSUE}
 
 # User instruction
 ${userInstruction || "(特になし)"}
-`;const genai = new GoogleGenerativeAI(API_KEY);const model = genai.getGenerativeModel({
+`;
+
+const genai = new GoogleGenerativeAI(API_KEY);
+const model = genai.getGenerativeModel({
   model: "gemini-1.5-flash", // 速くて安価。必要なら -pro に変更
-});const res = await model.generateContent({
+});
+
+const res = await model.generateContent({
   contents: [
     { role: "user", parts: [{ text: preamble }] },
     { role: "user", parts: [{ text: prompt }] },
@@ -35,14 +54,16 @@ ${userInstruction || "(特になし)"}
   generationConfig: {
     responseMimeType: "application/json"
   }
-});// ---- JSONパース（堅牢化） ----
+});
+
+// ---- JSONパース（堅牢化） ----
 let raw = res.response.text();
 fs.writeFileSync("gemini.m2.out", raw, "utf8"); // 生成物の原本を保存
 
 // 念のため、三連バッククォート等を除去（モデルが付けてしまう場合に備える）
 raw = raw.trim();
 if (raw.startsWith("```")) {
-  raw = raw.replace(/^```[a-zA-Z]*\n/, "").replace(/```$/, "").trim();
+  raw = raw.replace(/^[a-zA-Z]*\n/, "").replace(/```$/, "").trim();
 }
 
 let data;

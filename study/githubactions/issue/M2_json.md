@@ -222,7 +222,7 @@ for (const cmd of commands) {
 console.log("M2 done.");
 # 7. 使い方（テスト手順）
 1) 上の2ファイルをコミット＆push
-2) リポジトリの Secrets に GEMINI_API_KEY を登録
+2) ppura に GEMINI_API_KEY を登録
 3) Issue か PR でコメント:
    @gemini docs/plan.md を作って、ビルドできるように設定して。必要ならコマンドも。
 4) Actions が走る → Artifacts の m2-output を開いて

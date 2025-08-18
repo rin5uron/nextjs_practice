@@ -24,7 +24,7 @@ jobs:
           npm init -y
           # ESMを使うためにtype:module化
           node -e "let p=require('./package.json');p.type='module';require('fs').writeFileSync('package.json', JSON.stringify(p,null,2));"
-          npm i @google/genai@latest
+          npm i @google/generative-ai@latest
 
       - name: Run Gemini (M2)
         env:
