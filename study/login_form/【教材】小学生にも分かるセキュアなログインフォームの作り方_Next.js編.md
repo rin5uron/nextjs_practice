@@ -1,37 +1,44 @@
-# 【教材】小学生にも分かる！Next.jsで作る、安全なログインフォームの教科書
+# 【教材】Next.jsで学ぶ、セキュアなログインフォームの作り方
 
-こんにちは！未来のスーパーエンジニアのキミへ。
+こんにちは！未来のスーパーエンジニアのあなたへ。
 
-この教材は、ウェブサイトの「カギ」となるログインフォームの作り方を、Next.jsという人気の技術を使いながら学んでいくためのものです。
+この教材では、ウェブサイトの「認証」の入り口となるログインフォームの作り方を、Next.jsというモダンなフレームワークを使って実践的に学びます。
 
-「プログラミングって難しそう…」と思っているキミも大丈夫！
-まるで図工の授業で何かを作るように、一つ一つゆっくり進めていくからね。
+プログラミング初心者の方でも、一つ一つのステップを丁寧に解説していきますのでご安心ください。
 
-また、ITエンジニアの国家試験「基本情報技術者試験」に出てくるような、インターネットの安全を守るための大事な知識（セキュリティ）も一緒に学べるようになっています。
+また、ITエンジニアの登竜門である「基本情報技術者試験」で頻出するセキュリティの重要概念も、実装と関連付けながら習得できるよう構成しています。
 
-さあ、一緒に最高のログインフォームを作ってみよう！
-
----
-
-## 1時間目：準備をしよう！
-
-まずは、ログインフォームを作るための場所を準備します。
-
-### 1. ログインページ用のファイルを作ろう
-
-キミのプロジェクトの中に、ログイン画面専用のページを作ります。
-
-1.  `src/app` フォルダの中に `login` という名前の新しいフォルダを作ってください。
-2.  その `login` フォルダの中に `page.tsx` というファイルを作ります。
-
-これで、 `http://localhost:3000/login` にアクセスすると表示されるページが準備できました。
+さあ、一緒に堅牢なログインフォームを構築し、ウェブセキュリティの基礎を身につけましょう！
 
 ---
 
-## 2時間目：見た目を作ってみよう！
+## 1. 開発環境の準備とファイル作成
 
-ログインフォームの「見た目」をHTMLとCSSを使って作っていきます。
-`src/app/login/page.tsx` に下のコードをコピーして貼り付けてみよう。
+まずは、ログインフォームを実装するためのプロジェクト構造を整えます。
+
+### 1.1. ログインページ用ディレクトリとファイルの作成
+
+Next.jsのApp Routerの規約に従い、ログイン画面用のページを作成します。
+
+1.  `src/app` ディレクトリ内に `login` という新しいディレクトリを作成します。
+2.  作成した `login` ディレクトリ内に `page.tsx` ファイルを作成します。
+
+**ターミナルコマンド:**
+
+```bash
+mkdir -p src/app/login
+touch src/app/login/page.tsx
+```
+
+これにより、`http://localhost:3000/login` でアクセスできるページが準備されます。
+
+---
+
+## 2. ログインフォームのUI構築
+
+ログインフォームの「見た目」をHTMLとCSSを使って構築します。
+
+`src/app/login/page.tsx` に以下のコードをコピー＆ペーストしてください。
 
 ```tsx
 // src/app/login/page.tsx
@@ -58,10 +65,18 @@ export default function LoginPage() {
 }
 ```
 
-### CSSで見た目を整えよう
+### 2.1. CSSによるスタイリング
 
-このままだと、ちょっと見た目がさみしいので、CSSでかっこよくします。
-`src/app/login` フォルダの中に `LoginForm.module.css` というファイルを作って、下のコードを貼り付けてください。
+このままではシンプルな見た目なので、CSSでデザインを整えます。
+`src/app/login` ディレクトリ内に `LoginForm.module.css` ファイルを作成し、以下のコードを貼り付けてください。
+
+**ターミナルコマンド:**
+
+```bash
+touch src/app/login/LoginForm.module.css
+```
+
+**`src/app/login/LoginForm.module.css` の内容:**
 
 ```css
 /* src/app/login/LoginForm.module.css */
@@ -71,118 +86,142 @@ export default function LoginPage() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh; /* 画面全体の高さを確保 */
   background-color: #f0f2f5;
+  padding: 20px; /* 余白を追加 */
+  box-sizing: border-box; /* パディングを含めて要素の幅を計算 */
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 2.5rem; /* フォントサイズを少し大きく */
   color: #333;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem; /* 余白を調整 */
+  text-align: center;
 }
 
 .form {
-  padding: 2rem;
+  padding: 2.5rem; /* パディングを調整 */
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px; /* 角を丸く */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 影を強調 */
   width: 100%;
-  max-width: 400px;
+  max-width: 450px; /* 最大幅を少し広く */
 }
 
 .inputGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem; /* 余白を調整 */
 }
 
 .inputGroup label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #555;
+  margin-bottom: 0.6rem; /* 余白を調整 */
+  font-weight: 600; /* フォントの太さを調整 */
+  color: #444;
+  font-size: 1.05rem; /* フォントサイズを調整 */
 }
 
 .inputGroup input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
+  width: calc(100% - 20px); /* パディング分を考慮 */
+  padding: 0.8rem 10px; /* パディングを調整 */
+  border: 1px solid #ddd; /* 枠線を調整 */
+  border-radius: 6px; /* 角を丸く */
+  font-size: 1.05rem; /* フォントサイズを調整 */
+  transition: border-color 0.2s ease-in-out; /* ホバー時のアニメーション */
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #007bff; /* フォーカス時の色 */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* フォーカス時の影 */
 }
 
 .button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #0070f3;
+  padding: 0.9rem; /* パディングを調整 */
+  background-color: #007bff; /* ボタンの色を調整 */
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 6px; /* 角を丸く */
+  font-size: 1.1rem; /* フォントサイズを調整 */
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* アニメーションを追加 */
 }
 
 .button:hover {
-  background-color: #005bb5;
+  background-color: #0056b3; /* ホバー時の色 */
+  transform: translateY(-2px); /* 少し浮き上がるアニメーション */
+}
+
+.button:active {
+  transform: translateY(0); /* クリック時のアニメーション */
 }
 ```
 
-ここまでできたら、一度 `bun dev` コマンドで開発サーバーを起動して、ブラウザで `http://localhost:3000/login` を開いてみよう。かっこいいログインフォームが表示されたかな？
+ここまでできたら、開発サーバーを起動してブラウザで確認してみましょう。
+
+**ターミナルコマンド:**
+
+```bash
+bun dev
+```
+
+ブラウザで `http://localhost:3000/login` を開いて、デザインが適用されているか確認してください。
 
 ---
 
-## 3時間目：入力された文字をコンピューターに記憶させよう
+## 3. フォーム入力値の管理
 
-今のままでは、文字を入力してもコンピューターはそれを覚えてくれません。
-Reactの `useState` という魔法の呪文を使って、入力されたメールアドレスとパスワードを記憶させましょう。
+現在のフォームでは、ユーザーが入力した内容をJavaScriptで取得・管理できません。
+Reactの `useState` フックを使って、入力されたメールアドレスとパスワードをコンポーネントの「状態」として管理できるようにします。
 
-`src/app/login/page.tsx` を下のように書き換えてください。
+`src/app/login/page.tsx` を以下のように更新してください。
 
 ```tsx
 // src/app/login/page.tsx
-"use client"; // ← これを一番上に追加！
+"use client"; // このディレクティブは、このコンポーネントがクライアントサイドで実行されることを示します。
 
-import { useState } from 'react'; // ← これを追加！
+import { useState } from 'react'; // ReactのuseStateフックをインポート
 import styles from './LoginForm.module.css';
 
 export default function LoginPage() {
-  // useStateを使って、emailとpasswordを記憶する箱を用意
+  // useStateを使って、emailとpasswordの状態変数とその更新関数を定義
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // フォーム送信時のハンドラ関数
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // フォームのデフォルトの送信を防ぐ
-    alert(`メールアドレス: ${email}
-パスワード: ${password}`);
-    // ここに後で「サーバーに情報を送る」処理を書く
+    e.preventDefault(); // フォームのデフォルトの送信動作（ページリロード）を防ぐ
+    alert(`入力された情報:\nメールアドレス: ${email}\nパスワード: ${password}`);
+    // ここに後で「サーバーへのデータ送信」処理を実装します
   };
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>ログイン</h1>
-      {/* handleSubmit関数をformのonSubmitに設定 */}
+      {/* onSubmitイベントにhandleSubmit関数を設定 */}
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label htmlFor="email">メールアドレス</label>
-          {/* 入力されるたびにsetEmailが呼ばれ、emailの箱の中身が更新される */}
+          {/* input要素のvalueとonChangeを状態変数と紐付け */}
           <input
             type="email"
             id="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={email} // email状態変数の値を表示
+            onChange={(e) => setEmail(e.target.value)} // 入力値が変更されるたびにemail状態を更新
             required
           />
         </div>
         <div className={styles.inputGroup}>
           <label htmlFor="password">パスワード</label>
-          {/* 入力されるたびにsetPasswordが呼ばれ、passwordの箱の中身が更新される */}
+          {/* input要素のvalueとonChangeを状態変数と紐付け */}
           <input
             type="password"
             id="password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={password} // password状態変数の値を表示
+            onChange={(e) => setPassword(e.target.value)} // 入力値が変更されるたびにpassword状態を更新
             required
           />
         </div>
@@ -193,166 +232,199 @@ export default function LoginPage() {
 }
 ```
 
-### やってみよう！
+### 解説:
 
-1.  `"use client";` をファイルの先頭に追加しました。これは、「この部品はユーザーのブラウザ（クライアント）で動きますよ」という合図です。`useState` のような魔法は、この合図がある場所でしか使えません。
-2.  `useState` で `email` と `password` という名前の「記憶の箱」を用意しました。
-3.  `input` タグに `value` と `onChange` を追加しました。
-    *   `onChange`: ユーザーがキーボードで文字を打つたびに、`useState` の箱の中身を更新します。
-    *   `value`: `useState` の箱の中身を画面に表示します。
-4.  `form` タグに `onSubmit` を追加しました。ログインボタンが押されたときに `handleSubmit` という関数が実行されます。
-5.  `handleSubmit` の中では、とりあえず `alert` で入力内容が表示されるようにしています。
+*   **`"use client";`**: Next.jsのApp Routerでは、デフォルトでサーバーコンポーネントとして扱われます。`useState`のようなクライアントサイドの機能を使用するには、ファイルの先頭にこのディレクティブを記述する必要があります。
+*   **`useState`**: コンポーネント内で状態を管理するためのReactフックです。`[state変数, stateを更新する関数] = useState(初期値)` の形式で使用します。
+*   **`onChange` イベント**: `input` 要素の値が変更されるたびに発火し、`setEmail` や `setPassword` を呼び出して対応する状態変数を更新します。
+*   **`value` プロパティ**: `input` 要素の表示値を対応する状態変数と紐付けます。これにより、Reactがフォームの入力値を完全に制御する「制御されたコンポーネント」となります。
+*   **`handleSubmit` 関数**: フォームが送信された際（ログインボタンがクリックされた際）に実行されます。`e.preventDefault()` は、フォームのデフォルトの送信動作（ページのリロード）を防ぐために重要です。
 
-実際に文字を入力してログインボタンを押すと、入力した内容がアラートで表示されるはずです。
+実際にメールアドレスとパスワードを入力し、ログインボタンをクリックすると、入力内容がアラートで表示されることを確認してください。
 
 ---
 
-## 4時間目：【セキュリティ講座】ウェブサイトの安全を守る合言葉
+## 4. 【セキュリティ基礎講座】ウェブアプリケーションの安全を守るために
 
-ログインフォームは、ウェブサイトの安全を守るためのとても大事な場所。
-ここで、悪い人（ハッカー）に侵入されないための技術を学びましょう。
-これは「基本情報技術者試験」でも問われる超重要知識です！
+ログインフォームは、ユーザー認証というセキュリティ上非常に重要な役割を担っています。ここでは、基本情報技術者試験でも問われる、ウェブアプリケーションのセキュリティに関する主要な概念を学びましょう。
 
-### 1. ハッシュ化 (Hashing)
+### 4.1. ハッシュ化 (Hashing)
 
-**これは何？**
-パスワードを、元の形に戻せないグチャグチャの文字列に変換すること。
+**概要:**
+パスワードなどのデータを、元の形に戻せない一方向の固定長文字列（ハッシュ値）に変換する処理です。
 
-**たとえるなら…**
-「りんご」という言葉を、絶対に解読できない暗号「`x4$a@p!`」に変換する魔法の箱のようなものです。この魔法の箱は、同じ「りんご」を入れれば必ず同じ「`x4$a@p!`」が出てきますが、「`x4$a@p!`」から「りんご」に戻すことは誰にもできません。
+**重要性:**
+もしデータベースからパスワード情報が漏洩した場合でも、ハッシュ化されていれば元のパスワードが直接知られることはありません。パスワードは絶対に平文（そのままの形）で保存してはいけません。
 
-**なぜ大事？**
-もし会社のデータベースからパスワードが盗まれても、ハッシュ化されていれば、元のパスワードが何だったのか悪い人には分かりません。だから、パスワードは絶対に「そのまま」保存してはいけません。
+**基本情報技術者試験関連用語:**
+*   **一方向関数 (One-way function)**: ハッシュ化に用いられる関数で、計算は容易だが逆算が非常に困難な特性を持つ。
+*   **ソルト (Salt)**: ハッシュ化の際に、パスワードに付加するランダムなデータ。同じパスワードでも異なるハッシュ値になるようにし、レインボーテーブル攻撃などを防ぐ。
 
-### 2. SQLインジェクション (SQL Injection)
+### 4.2. SQLインジェクション (SQL Injection)
 
-**これは何？**
-データベースに命令を出す言語「SQL」を、入力フォームにこっそり注入（inject）して、データベースを不正に操作する攻撃。
+**概要:**
+データベースへの問い合わせ（SQL文）を生成する際に、ユーザーからの入力値を適切に処理しないことで、攻撃者が意図しないSQL文を実行させる攻撃です。
 
-**たとえるなら…**
-図書館の検索コンピューターで「夏目漱石の本」と検索すべきところを、「夏目漱石の本' OR '1'='1」のように、システムの意図しない特別な命令文を入力するようなものです。すると、コンピューターが勘違いして、貸出禁止の貴重な本まで含めて、すべての本のリストを表示してしまうかもしれません。
+**重要性:**
+この攻撃が成功すると、データベース内の機密情報（ユーザー情報、クレジットカード情報など）の窃取、改ざん、削除、さらにはシステム全体の乗っ取りにつながる可能性があります。
 
-**なぜ大事？**
-これをされると、登録されているユーザーの個人情報が全部盗まれたり、データを全部消されたりする可能性があります。対策としては、入力された文字を「ただの文字列」として扱い、特別な命令として解釈させないようにする（**プリペアドステートメント**や**エスケープ処理**）ことが重要です。
+**基本情報技術者試験関連用語と対策:**
+*   **プリペアドステートメント (Prepared Statement)**: SQL文のテンプレートとパラメータを分離してデータベースに渡し、パラメータをデータとしてのみ扱うことで、SQLインジェクションを防ぐ最も効果的な対策。
+*   **エスケープ処理 (Escaping)**: ユーザー入力に含まれるSQLにとって特別な意味を持つ文字（例: `'`, `;`, `--`）を無害化する処理。プリペアドステートメントが推奨されるが、代替手段として用いられることもある。
 
-### 3. クロスサイトスクリプティング (XSS / Cross-Site Scripting)
+### 4.3. クロスサイトスクリプティング (XSS / Cross-Site Scripting)
 
-**これは何？**
-ウェブサイトの入力フォームに、悪意のあるプログラム（スクリプト）を埋め込み、他のユーザーのブラウザで実行させる攻撃。
+**概要:**
+ウェブサイトの入力フォームやURLパラメータなどを介して、悪意のあるスクリプト（JavaScriptなど）をウェブページに埋め込み、そのページを閲覧した他のユーザーのブラウザで実行させる攻撃です。
 
-**たとえるなら…**
-みんなが見る掲示板に、「これをクリックすると面白いサイトが見れるよ！」と書いて、実はクリックした人の情報を盗む罠を仕掛けておくようなものです。
+**重要性:**
+攻撃が成功すると、ユーザーのセッションクッキー（ログイン状態を維持する情報）の窃取、偽のフォーム表示による個人情報詐取、ウェブサイトの改ざんなどが行われる可能性があります。
 
-**なぜ大事？**
-他のユーザーがそのページを見たときに、埋め込まれたプログラムが勝手に実行されて、個人情報（クッキーなど）が盗まれてしまう可能性があります。対策としては、ユーザーが入力した内容を画面に表示する際に、`<script>`のような特別な意味を持つ文字を無害化（**サニタイズ**）することが重要です。
+**基本情報技術者試験関連用語と対策:**
+*   **サニタイジング (Sanitizing)**: ユーザー入力に含まれるHTMLタグやJavaScriptコードを無害化（除去またはエスケープ）する処理。
+*   **エスケープ処理 (Escaping)**: `<` を `&lt;` のように、HTMLにとって特別な意味を持つ文字を別の表現に変換し、スクリプトとして解釈されないようにする処理。
 
-### 4. HTTPS (Hypertext Transfer Protocol Secure)
+### 4.4. HTTPS (Hypertext Transfer Protocol Secure)
 
-**これは何？**
-キミのブラウザと、ウェブサイトのサーバーとの間の通信を暗号化する仕組み。
+**概要:**
+HTTP通信にSSL/TLSプロトコルを組み合わせることで、ウェブブラウザとウェブサーバー間の通信を暗号化し、盗聴、改ざん、なりすましを防ぐ仕組みです。
 
-**たとえるなら…****
-普通の通信（HTTP）が「ハガキ」で手紙を送るようなものだとすれば、HTTPSは「カギのかかった金庫」で手紙を送るようなものです。途中で誰かに盗み見られても、中身を読むことはできません。
+**重要性:**
+ログイン情報（ユーザー名、パスワード）やクレジットカード情報などの機密性の高いデータをインターネット上で安全に送受信するために不可欠です。HTTPSを使用しないHTTP通信では、これらの情報が第三者に容易に盗聴される危険性があります。
 
-**なぜ大事？**
-ログインフォームで入力したパスワードが、もし暗号化されていないHTTP通信で送られたら、途中で悪い人に盗み見られてしまうかもしれません。URLが `http://` ではなく `https://` で始まっているサイトは、このHTTPSを使っているので安全です。
+**基本情報技術者試験関連用語:**
+*   **SSL/TLS (Secure Sockets Layer / Transport Layer Security)**: 通信を暗号化するためのプロトコル。
+*   **公開鍵暗号方式 (Public-key cryptography)**: 暗号化と復号に異なる鍵（公開鍵と秘密鍵）を使用する暗号方式。
+*   **共通鍵暗号方式 (Symmetric-key cryptography)**: 暗号化と復号に同じ鍵を使用する暗号方式。HTTPSでは、通信開始時に公開鍵暗号方式で共通鍵を安全に共有し、その後のデータ通信は高速な共通鍵暗号方式で行われる。
+*   **デジタル証明書 (Digital Certificate)**: ウェブサイトの運営者が正当なものであることを証明し、公開鍵の信頼性を保証するもの。
 
 ---
 
-## 5時間目：サーバーと通信しよう！
+## 5. サーバーサイドとの連携 (APIルートの実装)
 
-最後に、入力された情報を「サーバー」と呼ばれるコンピューターに送る方法を学びます。
-Next.jsでは、このサーバーの役割を果たすプログラム（APIルート）を簡単に作れます。
+最後に、入力された認証情報を「サーバー」に送信し、認証処理を行う方法を学びます。Next.jsでは、サーバーサイドの処理を簡単に記述できる「APIルート」を提供しています。
 
-### 1. ログインAPIを作ろう
+### 5.1. ログインAPIルートの作成
 
-1.  `src/app` フォルダの中に `api` というフォルダを作ります。
-2.  `api` フォルダの中に `login` というフォルダを作ります。
-3.  `login` フォルダの中に `route.ts` というファイルを作って、下のコードを貼り付けます。
+ユーザーからのログインリクエストを受け付けるAPIエンドポイントを作成します。
 
-```ts
+1.  `src/app` ディレクトリ内に `api` という新しいディレクトリを作成します。
+2.  `api` ディレクトリ内に `login` という新しいディレクトリを作成します。
+3.  `login` ディレクトリ内に `route.ts` ファイルを作成します。
+
+**ターミナルコマンド:**
+
+```bash
+mkdir -p src/app/api/login
+touch src/app/api/login/route.ts
+```
+
+**`src/app/api/login/route.ts` の内容:**
+
+```typescript
 // src/app/api/login/route.ts
 
 import { NextResponse } from 'next/server';
 
+// POSTリクエストを処理する関数
 export async function POST(request: Request) {
   try {
-    // フロントエンドから送られてきた情報を取得
+    // リクエストボディからメールアドレスとパスワードを取得
     const { email, password } = await request.json();
 
-    // ★★★ 本来はここでデータベースと照合する ★★★
-    // ここでは、簡単にするために特定のメアドとパスワードだけでログイン成功とする
+    // --- ここが認証ロジックの核心部分です ---
+    // 本来はここでデータベースに保存されたユーザー情報と照合します。
+    // 例: ユーザーIDとハッシュ化されたパスワードをデータベースから取得し、
+    // 入力されたパスワードをハッシュ化して比較する。
+    //
+    // 今回は学習のため、特定のメールアドレスとパスワードでのみログイン成功とします。
     if (email === 'test@example.com' && password === 'password123') {
-      // ログイン成功！
+      // 認証成功の場合
       return NextResponse.json({ message: 'ログイン成功！' });
     } else {
-      // ログイン失敗...
+      // 認証失敗の場合
+      // HTTPステータスコード401 (Unauthorized) を返すのが一般的です。
       return NextResponse.json({ message: 'メールアドレスまたはパスワードが違います。' }, { status: 401 });
     }
   } catch (error) {
-    return NextResponse.json({ message: 'エラーが発生しました。' }, { status: 500 });
+    // エラーハンドリング
+    console.error('APIエラー:', error);
+    return NextResponse.json({ message: 'サーバーエラーが発生しました。' }, { status: 500 });
   }
 }
 ```
 
-### 2. フロントエンドからAPIを呼び出そう
+### 5.2. フロントエンドからのAPI呼び出し
 
-`src/app/login/page.tsx` の `handleSubmit` 関数を書き換えて、さっき作ったAPIに情報を送るようにします。
+`src/app/login/page.tsx` の `handleSubmit` 関数を更新し、作成したAPIルートに認証情報を送信するようにします。
+
+**`src/app/login/page.tsx` の `handleSubmit` 関数を以下のように書き換える:**
 
 ```tsx
-// src/app/login/page.tsx の handleSubmit 関数を書き換える
+// src/app/login/page.tsx の handleSubmit 関数
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // フォームのデフォルト送信を防ぐ
     
     try {
+      // /api/login エンドポイントへPOSTリクエストを送信
       const response = await fetch('/api/login', {
-        method: 'POST',
+        method: 'POST', // HTTPメソッドはPOST
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // リクエストボディの形式はJSON
         },
+        // メールアドレスとパスワードをJSON形式で送信
         body: JSON.stringify({ email, password }),
       });
 
+      // サーバーからのレスポンスをJSONとしてパース
       const data = await response.json();
 
-      if (response.ok) {
-        // ログイン成功
-        alert(`サーバーからの返事: ${data.message}`);
-        // ここで、ログイン後のページに移動させる処理などを書く
-        // window.location.href = '/dashboard';
-      } else {
-        // ログイン失敗
-        alert(`エラー: ${data.message}`);
+      if (response.ok) { // HTTPステータスコードが2xxの場合（成功）
+        alert(`ログイン成功: ${data.message}`);
+        // 成功後、ダッシュボードページなどへリダイレクトする処理をここに記述
+        // 例: window.location.href = '/dashboard';
+      } else { // HTTPステータスコードが2xx以外の場合（失敗）
+        alert(`ログイン失敗: ${data.message}`);
       }
     } catch (error) {
-      alert('通信に失敗しました。');
+      // ネットワークエラーなど、通信自体に問題があった場合
+      console.error('通信エラー:', error);
+      alert('通信中にエラーが発生しました。ネットワーク接続を確認してください。');
     }
   };
 ```
 
-### やってみよう！
+### 動作確認:
 
-1.  `test@example.com` と `password123` を入力してログインボタンを押してみよう。「ログイン成功！」と表示されるはずです。
-2.  それ以外の情報を入力してログインボタンを押してみよう。「メールアドレスまたはパスワードが違います。」と表示されるはずです。
+1.  開発サーバーが起動していることを確認してください (`bun dev`)。
+2.  ブラウザで `http://localhost:3000/login` を開きます。
+3.  メールアドレスに `test@example.com`、パスワードに `password123` を入力してログインボタンをクリックします。「ログイン成功！」のアラートが表示されるはずです。
+4.  それ以外の情報を入力してログインボタンをクリックします。「メールアドレスまたはパスワードが違います。」のアラートが表示されるはずです。
 
-これで、フロントエンド（見た目）とバックエンド（裏側の処理）が連携する、本物に近いログイン処理が完成しました！
+これで、フロントエンド（ユーザーインターフェース）とバックエンド（認証ロジック）が連携する、より実践的なログイン処理が完成しました！
 
 ---
 
 ## まとめ
 
 お疲れ様でした！
-キミは今日、ただのログインフォームではなく、「安全」を意識したログインフォームの作り方の第一歩を学びました。
 
--   **HTML/CSS** で見た目を作り、
--   **React (useState)** でユーザーの入力を扱えるようになり、
--   **APIルート** を作ってサーバーとの通信を実装し、
--   **ハッシュ化** や **XSS** などの重要な **セキュリティ** の知識も学びました。
+あなたは今日、単なるログインフォームの作成だけでなく、ウェブアプリケーションの「安全性」を意識した開発の第一歩を踏み出しました。
+
+*   **Next.js (App Router)** を使ったページとAPIルートの作成
+*   **HTML/CSS** によるUIの構築とスタイリング
+*   **React (useState)** によるフォーム入力値の管理
+*   **APIルート** を用いたサーバーサイドとの通信実装
+*   **ハッシュ化、SQLインジェクション、XSS、HTTPS** といった基本情報技術者試験にも役立つ重要なセキュリティ概念の理解
+
+この教材で学んだ知識は、今後のあなたのエンジニアとしてのキャリアにおいて非常に重要な基礎となります。
 
 ここからさらに、
-「実際にユーザー登録できるようにするにはどうすればいい？」
-「SupabaseやFirebaseみたいな本物のデータベースと繋ぐには？」
-といった新しい冒険が待っています。
+*   「実際にユーザー登録機能を実装するには？」
+*   「SupabaseやFirebaseのような認証サービスと連携するには？」
+*   「パスワードのリセット機能はどう作る？」
 
-今日の経験をバネにして、もっとすごいものづくりに挑戦していってください。応援しています！
+といった、より高度なテーマにも挑戦してみてください。
+
+今日の経験を活かし、これからも素晴らしいものづくりに挑戦し続けてください。応援しています！
