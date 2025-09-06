@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* 画面全体の高さを確保 */
+    background-color: #f0f2f5;
+    padding: 20px; /* 余白を追加 */
+    box-sizing: border-box; /* パディングを含めて要素の幅を計算 */
+  }
+  
+  .title {
+    font-size: 2.5rem; /* フォントサイズを少し大きく */
+    color: #333;
+    margin-bottom: 2.5rem; /* 余白を調整 */
+    text-align: center;
+  }
+  
+  .form {
+    padding: 2.5rem; /* パディングを調整 */
+    background-color: white;
+    border-radius: 10px; /* 角を丸く */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 影を強調 */
+    width: 100%;
+    max-width: 450px; /* 最大幅を少し広く */
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.8rem; /* 余白を調整 */
+  }
+  
+  .inputGroup label {
+    display: block;
+    margin-bottom: 0.6rem; /* 余白を調整 */
+    font-weight: 600; /* フォントの太さを調整 */
+    color: #444;
+    font-size: 1.05rem; /* フォントサイズを調整 */
+  }
+  
+  .inputGroup input {
+    width: calc(100% - 20px); /* パディング分を考慮 */
+    padding: 0.8rem 10px; /* パディングを調整 */
+    border: 1px solid #ddd; /* 枠線を調整 */
+    border-radius: 6px; /* 角を丸く */
+    font-size: 1.05rem; /* フォントサイズを調整 */
+    transition: border-color 0.2s ease-in-out; /* ホバー時のアニメーション */
+  }
+  
+  .inputGroup input:focus {
+    outline: none;
+    border-color: #007bff; /* フォーカス時の色 */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* フォーカス時の影 */
+  }
+  
+  .button {
+    width: 100%;
+    padding: 0.9rem; /* パディングを調整 */
+    background-color: #547da8; /* ボタンの色を調整 */
+    color: white;
+    border: none;
+    border-radius: 6px; /* 角を丸く */
+    font-size: 1.1rem; /* フォントサイズを調整 */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* アニメーションを追加 */
+  }
+  
+  .button:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+    transform: translateY(-2px); /* 少し浮き上がるアニメーション */
+  }
+  
+  .button:active {
+    transform: translateY(0); /* クリック時のアニメーション */
+  }
