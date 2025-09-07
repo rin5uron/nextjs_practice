@@ -148,13 +148,17 @@ export default function LoginPage() {
           <ul className={styles.summaryList}>
             <li>JSXとCSS ModulesによるUI構築</li>
             <li><strong>useState</strong>によるリアルタイム入力の状態管理</li>
-            <li>フォーム送信時のイベント処理</li>
             <li><strong>fetch</strong>を使ったクライアントサイドAPI呼び出し</li>
             <li>APIからの成功/エラー応答の処理</li>
-            <li>接続拒否エラー: "ERR_CONNECTION_REFUSED"はサーバー停止の可能性。`bun dev`で再起動。</li>
+            <li>接続拒否エラー: "ERR_CONNECTION_REFUSED"はサーバーセッション切れの可能性。`bun dev`で再起動。</li>
             <li><strong>`route.ts` (API):</strong> サーバーで動作し、データ処理が主。ログはサーバーのターミナルに出力。</li>
             <li><strong>`page.tsx` (ページ):</strong> ブラウザで動作し、画面表示が主。ログはブラウザコンソール、アラートは画面に表示。</li>
             <li>JSX内でJavaScriptのコメントを埋め込むには、{"{}"}で囲む必要がある</li>
+            <li><strong>Next.jsプロジェクトにおける layout.tsx と components</strong>
+              ディレクトリの役割をまとめます。
+              layout.tsx は共通レイアウト、components
+              は再利用可能なUI部品を置く場所。
+            </li>
           </ul>
         </div>
 
@@ -167,6 +171,8 @@ export default function LoginPage() {
             <li>LINE認証によるログイン実装</li>
           </ul>
         </div>
+
+        
       </div>
     </div>
   );

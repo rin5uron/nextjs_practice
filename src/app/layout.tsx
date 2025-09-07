@@ -1,5 +1,5 @@
 // // Headerコンポーネントをインポート。これは全てのページに共通で表示されるヘッダーです。
-import Header from '@/components/layout/Header';
+// import Header from '@/components/layout/Header';
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -32,8 +32,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
+        {/* <Header />
+        {children} */}
       </body>
     </html>
   );
