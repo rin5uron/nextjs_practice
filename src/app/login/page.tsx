@@ -159,6 +159,9 @@ export default function LoginPage() {
               layout.tsx は共通レイアウト、components
               は再利用可能なUI部品を置く場所。
             </li>
+            <li>サーバーへデプロイする際はフレームワーク全体をデプロイし、その後
+            以降でプロジェクト（ルート）を指定する
+            </li>
           </ul>
         </div>
 
