@@ -12,8 +12,15 @@
   .title {
     font-size: 2.5rem; /* フォントサイズを少し大きく */
     color: #333;
-    margin-bottom: 2.5rem; /* 余白を調整 */
+    margin-bottom: 1rem; /* フォームとの余白を調整 */
     text-align: center;
+  }
+
+  .formColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
   
   .form {
@@ -27,6 +34,7 @@
   
   .inputGroup {
     margin-bottom: 1.8rem; /* 余白を調整 */
+    color: #333; /* 文字色を明示的に指定,指定なしだとデフォルトで薄いグレーだった */
   }
   
   .inputGroup label {
@@ -43,6 +51,7 @@
     border: 1px solid #ddd; /* 枠線を調整 */
     border-radius: 6px; /* 角を丸く */
     font-size: 1.05rem; /* フォントサイズを調整 */
+    color: #333; /* 文字色を明示的に指定 */
     transition: border-color 0.2s ease-in-out; /* ホバー時のアニメーション */
   }
   
@@ -73,3 +82,74 @@
   .button:active {
     transform: translateY(0); /* クリック時のアニメーション */
   }
+
+/* What I Learned Section Styles */
+.summaryCard {
+  padding: 1.5rem 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px;
+  text-align: left;
+  border: 1px solid #e0e0e0;
+}
+
+.summaryTitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.8rem;
+}
+
+.summaryList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.summaryList li {
+  margin-bottom: 0.75rem;
+  color: #555;
+  line-height: 1.6;
+  padding-left: 1.5em;
+  position: relative;
+}
+
+.summaryList li::before {
+  content: '☑️';
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+/* Responsive Layout Styles */
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 2rem; /* Gap between cards */
+  width: 100%;
+  max-width: 960px; /* Max width for the cards container */
+  justify-content: center;
+  margin-top: 2rem; /* Space between form and cards */
+}
+
+.summaryCard {
+  flex: 1; /* Allow cards to grow and shrink */
+  min-width: 300px; /* Minimum width for cards before wrapping */
+  /* Existing summaryCard styles will apply */
+}
+
+/* 画面幅が820px以下の時に適用されるスタイル（タブレットやスマホ） */
+@media (max-width: 820px) {
+  .cardsContainer {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards when stacked */
+  }
+
+  .summaryCard {
+    margin-top: 0; /* Reset margin-top for stacked cards if needed */
+  }
+}

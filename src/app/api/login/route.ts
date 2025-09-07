@@ -1,30 +1,19 @@
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // フォームのデフォルト送信を防ぐ
-    
-    try {
-      // /api/login エンドポイントへPOSTリクエストを送信
-      const response = await fetch('/api/login', {
-        method: 'POST', // HTTPメソッドはPOST
-        headers: {
-          'Content-Type': 'application/json', // リクエストボディの形式はJSON
-        },
-        // メールアドレスとパスワードをJSON形式で送信
-        body: JSON.stringify({ email, password }),
-      });
+import { NextResponse } from 'next/server';
 
-      // サーバーからのレスポンスをJSONとしてパース
-      const data = await response.json();
+export async function POST(request: Request) {
+  try {
+    const { email, password } = await request.json();
 
-      if (response.ok) { // HTTPステータスコードが2xxの場合（成功）
-        alert(`ログイン成功: ${data.message}`);
-        // 成功後、ダッシュボードページなどへリダイレクトする処理をここに記述
-        // 例: window.location.href = '/dashboard';
-      } else { // HTTPステータスコードが2xx以外の場合（失敗）
-        alert(`ログイン失敗: ${data.message}`);
-      }
-    } catch (error) {
-      // ネットワークエラーなど、通信自体に問題があった場合
-      console.error('通信エラー:', error);
-      alert('通信中にエラーが発生しました。ネットワーク接続を確認してください。');
+    // Learning note: To embed JavaScript comments within JSX, you need to enclose them in `{}`.
+    console.log("To embed JavaScript comments within JSX, you need to enclose them in `{}`.");
+
+    if (email === 'test@example.com' && password === 'password123') {
+      return NextResponse.json({ message: 'ログイン成功！' });
+    } else {
+      return NextResponse.json({ message: 'メールアドレスまたはパスワードが違います。' }, { status: 401 });
     }
-  };
+  } catch (error) {
+    console.error('APIエラー:', error);
+    return NextResponse.json({ message: 'サーバーエラーが発生しました。' }, { status: 500 });
+  }
+}

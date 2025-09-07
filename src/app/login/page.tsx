@@ -106,56 +106,68 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.formColumn}> {/* Form is now directly under container */}
+        <h1 className={styles.title}>Login</h1>
+        <p style={{ textAlign: 'center', color: '#888', fontSize: '14px' }}>
+          Try loging in with: any email(user@example.com) / anypassword you like
+        </p>
+        {/* onSubmitイベントにhandleSubmit関数を設定 */}
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email">e-Mail</label>
+            {/* input要素のvalueとonChangeを状態変数と紐付け */}
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email} // email状態変数の値を表示
+              onChange={(e) => setEmail(e.target.value)} // 入力値が変更されるたびにemail状態を更新
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Password</label>
+            {/* input要素のvalueとonChangeを状態変数と紐付け */}
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password} // password状態変数の値を表示
+              onChange={(e) => setPassword(e.target.value)} // 入力値が変更されるたびにpassword状態を更新
+              required
+            />
+          </div>
+          <button type="submit" className={styles.button}>Login</button>
+        </form>
+      </div>
 
-      <div className={styles.mainContent}>
-        <div className={styles.formColumn}>
-          <h1 className={styles.title}>Login</h1>
-          <p style={{ textAlign: 'center', color: '#888', fontSize: '14px' }}>
-            Try loging in with: any email(user@example.com) / anypassword you like
-          </p>
-          {/* onSubmitイベントにhandleSubmit関数を設定 */}
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="email">e-Mail</label>
-              {/* input要素のvalueとonChangeを状態変数と紐付け */}
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email} // email状態変数の値を表示
-                onChange={(e) => setEmail(e.target.value)} // 入力値が変更されるたびにemail状態を更新
-                required
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <label htmlFor="password">Password</label>
-              {/* input要素のvalueとonChangeを状態変数と紐付け */}
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password} // password状態変数の値を表示
-                onChange={(e) => setPassword(e.target.value)} // 入力値が変更されるたびにpassword状態を更新
-                required
-              />
-            </div>
-            <button type="submit" className={styles.button}>Login</button>
-          </form>
-        </div>
-
+      <div className={styles.cardsContainer}> {/* New container for cards */}
         {/* What I Learned Section */}
         <div className={styles.summaryCard}>
           <h2 className={styles.summaryTitle}>What I Learned</h2>
           <ul className={styles.summaryList}>
-            <li>UI Construction with JSX & CSS Modules</li>
-            <li>State Management with <strong>useState</strong> to remember user input in real-time</li>
-            <li>Event Handling for form submissions</li>
-            <li>Client-side API calls with <strong>fetch</strong> to send login data to the server</li>
-            <li>Handling success/error responses from an API</li>
+            <li>JSXとCSS ModulesによるUI構築</li>
+            <li><strong>useState</strong>によるリアルタイム入力の状態管理</li>
+            <li>フォーム送信時のイベント処理</li>
+            <li><strong>fetch</strong>を使ったクライアントサイドAPI呼び出し</li>
+            <li>APIからの成功/エラー応答の処理</li>
+            <li>接続拒否エラー: "ERR_CONNECTION_REFUSED"はサーバー停止の可能性。`bun dev`で再起動。</li>
+            <li><strong>`route.ts` (API):</strong> サーバーで動作し、データ処理が主。ログはサーバーのターミナルに出力。</li>
+            <li><strong>`page.tsx` (ページ):</strong> ブラウザで動作し、画面表示が主。ログはブラウザコンソール、アラートは画面に表示。</li>
+            <li>JSX内でJavaScriptのコメントを埋め込むには、{"{}"}で囲む必要がある</li>
+          </ul>
+        </div>
+
+        {/* Next Steps Section */}
+        <div className={styles.summaryCard}>
+          <h2 className={styles.summaryTitle}>Next Steps</h2>
+          <ul className={styles.summaryList}>
+            <li>Supabaseを導入し、より堅牢で拡張性の高い機能を実装</li>
+            <li>Google認証によるログイン実装</li>
+            <li>LINE認証によるログイン実装</li>
           </ul>
         </div>
       </div>
-
     </div>
   );
 }
