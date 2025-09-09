@@ -2,19 +2,8 @@
 // import Header from '@/components/layout/Header';
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 // グローバルなスタイルシートをインポート。アプリケーション全体に適用されます。
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 // アプリケーションのメタデータ（タイトル、説明など）を定義。SEOに利用されます。
 export const metadata: Metadata = {
@@ -29,11 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* <Header />
-        {children} */}
+      <body>
+        {/* <Header /> */}
+        {/* ページコンポーネントの内容を表示するために {children} は必須です */}
+        {children}
       </body>
     </html>
   );
