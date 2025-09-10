@@ -1,32 +1,67 @@
-# Next.js プロジェクト
+# Next.js Learning Journey 🚀
 
-このプロジェクトは [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) を使って作成された [Next.js](https://nextjs.org) プロジェクトです。
+このリポジトリは、Next.jsを基礎から実践まで学び、使いこなすことを目標とした学習の記録です。
+作成したアプリケーションや学習内容をまとめています。
 
-## はじめ方
+## 🛠️ 使用技術 (Tech Stack)
 
-まず、開発サーバーを起動してください:
+- **Framework**: Next.js, React
+- **Language**: TypeScript
+- **Authentication**: Supabase
+- **Styling**: CSS Modules, (Tailwind CSS - setup)
+- **Lint**: ESLint
 
-```bash
-pnpm dev
-```
+## ✨ 実装した主な機能 (Key Features)
 
-ブラウザで [http://localhost:3000](http://localhost:3000) を開くと、結果を確認できます。
+学習の過程で実装した主な機能です。各機能はVercelにデプロイされています。
 
-`src/app/page.tsx` を編集することで、このページを編集できます。ファイルを編集すると、ページは自動的に更新されます。
+| 機能 (Feature) | 作成日 (Date) | 関連フェーズ | URL |
+| :--- | :--- | :--- | :--- |
+| ログインページ | 2025-09-06 | Phase 2 | [https://nextjs-practice.vercel.app/login](https://nextjs-practice.vercel.app/login) |
+| Todoアプリ | 2025-08-21 | Phase 3 | [https://nextjs-practice.vercel.app/todo](https://nextjs-practice.vercel.app/todo) |
+| プロフィールページ | 2025-08-06 | Phase 1 | [https://nextjs-practice.vercel.app/profile](https://nextjs-practice.vercel.app/profile) |
+| 商品ページ | 2025-08-21 | Phase 1 | [https://nextjs-practice.vercel.app/products](https://nextjs-practice.vercel.app/products) |
+| お知らせページ | 2025-08-11 | Phase 0 | [https://nextjs-practice.vercel.app/news](https://nextjs-practice.vercel.app/news) |
+| 概要ページ | 2025-08-13 | Phase 0 | [https://nextjs-practice.vercel.app/about](https://nextjs-practice.vercel.app/about) |
 
-このプロジェクトでは、Vercelの新しいフォントファミリーである[Geist](https://vercel.com/font)を自動的に最適化して読み込むために、[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)を使用しています。
+## 📚 学習の記録 (Learning Log)
 
-## さらに学ぶ
+`study`ディレクトリに、学習した内容をフェーズごとに記録しています。
 
-Next.jsについてさらに学ぶには、以下のリソースをご覧ください:
+### Phase 0: 基礎固め
 
-- [Next.js ドキュメント](https://nextjs.org/docs) - Next.jsの機能とAPIについて学ぶ
-- [Learn Next.js](https://nextjs.org/learn) - インタラクティブなNext.jsのチュートリアル
+- **Next.jsプロジェクトの始め方**: 環境構築と初期設定
+  - `study/phase0/nextjs_startup_guide.md`
+- **基本的なページ作成**: App Routerのルーティングとレイアウト
+  - `study/phase0/nextjs_page_creation_guide.md`
+- **コンポーネントの考え方**: 再利用可能なUIコンポーネントの設計
+  - `study/phase0/nextjs_component_guide.md`
+- **開発フロー**: Git-flowを用いたブランチ戦略
+  - `study/phase0/gitflow_practice_guide.md`
 
-[Next.jsのGitHubリポジトリ](https://github.com/vercel/next.js)へのフィードバックや貢献も歓迎します！
+### Phase 1: Next.jsの核心
 
-## Vercelへのデプロイ
+- **Next.jsの基礎**: フレームワークの主要な概念を深く学習
+  - `study/phase1/nextjs_foundations_guide.md`
 
-Next.jsアプリをデプロイする最も簡単な方法は、Next.jsの作成者である[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)を利用することです。
+### Phase 2: ログインフォーム開発
 
-詳細については、[Next.jsのデプロイドキュメント](https://nextjs.org/docs/app/building-your-application/deploying)をご確認ください。
+- **セキュアなログインフォーム**: Supabaseを使った認証の実装
+  - `study/login_form/`
+
+### Phase 3: Todoアプリ開発
+
+- **Todoアプリ開発**: 状態管理とUIの連携
+  - `study/phase2/nextjs_basic_todo_app_guide.md`
+
+### その他
+
+- **React & TypeScript**: 型安全なReactコンポーネント開発
+  - `study/phase2/react_typescript_10day_guide.md`
+- **開発とデバッグ**: トラブルシューティングとビルドエラーの解決
+  - `study/phase2/250822_nextjs_dev_troubleshooting_guide.md`
+- **CI/CD**: GitHub Actionsを用いた自動化の学習
+  - `study/githubactions/`
+
+---
+This repository demonstrates my journey and dedication to mastering Next.js.
