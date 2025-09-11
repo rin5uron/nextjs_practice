@@ -1,0 +1,41 @@
+/* src/components/ui/social-buttons.module.css */
+.socialButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    gap: 0.75rem; /* アイコンとテキストの間隔 */
+    margin-bottom: 1rem;
+    display: flex;
+    /* flex-direction: column; */
+  }
+  
+  .google {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .google:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  /* ... .google の下に追加 ... */
+.line {
+    background-color: #06C755;
+    color: white;
+    border: none;
+  }
+  
+  .line:hover {
+    background-color: #05a649;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  

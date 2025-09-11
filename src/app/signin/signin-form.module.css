@@ -1,0 +1,86 @@
+/* src/app/signin/signin-form.module.css */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    padding: 2rem;
+  }
+  
+  .formWrapper {
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #aaa;
+    margin: 2rem 0;
+    font-size: 0.9rem;
+  }
+  
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .divider:not(:empty)::before {
+    margin-right: .5em;
+  }
+  
+  .divider:not(:empty)::after {
+    margin-left: .5em;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .emailButton {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .emailButton:hover {
+    background-color: #555;
+  }
