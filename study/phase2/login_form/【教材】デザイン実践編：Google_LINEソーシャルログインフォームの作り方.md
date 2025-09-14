@@ -414,7 +414,7 @@ npm install @supabase/ssr
     *   `+ 認証情報を作成` > `OAuthクライアントID` を選択します。
     *   アプリケーションの種類で `ウェブアプリケーション` を選択します。
 
-2.  **リダイレクトURIの設定:**
+2.  **リダイレクトURIの設定:**ok
     *   Supabaseのダッシュボードに戻り、`Authentication` > `Providers` > `Google` を選択します。
     *   `Configuration`タブに表示されている `Redirect URL`（コールバックURL）をコピーします。（プロバイダー項目のアプリごとのところの欄にあるよ）
     *   Google Cloud Consoleの `承認済みのリダイレクトURI` に、コピーしたURLを貼り付けます。
