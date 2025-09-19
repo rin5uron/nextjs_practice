@@ -1,0 +1,16 @@
+* src/app/todo/page.module.css */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}

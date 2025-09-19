@@ -1,7 +1,7 @@
 // src/components/ui/GoogleLoginButton.tsx
 "use client";
 
-import supabase from "@/lib/supabase"; // Supabaseクライアントをインポート
+import { createClient } from '@/utils/supabase/client';
 import styles from './social-buttons.module.css';
 
 // GoogleのロゴSVG

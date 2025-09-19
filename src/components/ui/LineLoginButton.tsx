@@ -1,7 +1,7 @@
 // src/components/ui/LineLoginButton.tsx
 "use client";
 
-import supabase from "@/lib/supabase";
+import { createClient } from '@/utils/supabase/client';
 import styles from './social-buttons.module.css';
 
 // LINEのロゴSVG (https://www.svgrepo.com/svg/303177/line-logo より)

@@ -141,7 +141,7 @@ export default function TodoPage() {
 <br>
 
 ## 2日目：CSSで見た目を整える
-**実施日：2025/9/1**
+**実施日：2025/9/19**
 **学んだこと：**
 
 **今日のゴール：** CSS Modulesを使って、TODOアプリの見た目を整える！
@@ -183,11 +183,7 @@ touch src/app/todo/page.module.css
 ```tsx
 // src/app/todo/page.tsx
 
-import AddTodoForm from "@/components/todo/AddTodoForm";
-import TodoList from "@/components/todo/TodoList";
-import styles from "./page.module.css"; // ★ 追加
-
-export default function TodoPage() {
+) {
   return (
     <div className={styles.container}> {/* ★ 変更 */}
       <h1 className={styles.title}>TODOアプリ</h1> {/* ★ 変更 */}
@@ -248,7 +244,11 @@ export default function AddTodoForm() {
   return (
     <form className={styles.form}> {/* ★ 変更 */}
       <input type="text" placeholder="新しいタスクを追加" className={styles.input} /> {/* ★ 変更 */}
-      <button type="submit" className={styles.button}>追加</button> {/* ★ 変更 */}
+      <button timport AddTodoForm from "@/components/todo/AddTodoForm";
+import TodoList from "@/components/todo/TodoList";
+import styles from "./page.module.css"; // ★ 追加
+
+export default function TodoPage(ype="submit" className={styles.button}>追加</button> {/* ★ 変更 */}
     </form>
   );
 }

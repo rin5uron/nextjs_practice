@@ -52,3 +52,5 @@ Supabaseは「BaaS（Backend as a Service）」に分類され、**PaaSの中で
 ---
 
 次ステップ：「メール認証のフォーム作成」へ 👉
+
+

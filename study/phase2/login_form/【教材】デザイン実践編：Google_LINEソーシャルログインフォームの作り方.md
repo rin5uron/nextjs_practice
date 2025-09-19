@@ -370,7 +370,7 @@ export default function AuthPage() {
 
 ### 6.1. Supabaseプロジェクトの環境変数設定
 
-1.  **Supabaseプロジェクトの作成:**
+1.  **Supabaseプロジェクトの作成:** ok
     *   [Supabase公式サイト](https://supabase.com/)にアクセスし、新しいプロジェクトを作成します。
 
     
@@ -427,10 +427,8 @@ npm install @supabase/ssr
 ### 6.3. LINEプロバイダーの設定
 
 1.  **LINE Developers Consoleでの設定:**
-    *   [LINE Developers Console](https://developers.line.biz/ja/)にアクセスし、新規プロバイダーと `LINEログイン` チャンネルを作成します。
-    *   `チャネル基本設定` タブで `チャネルID` と `チャネルシークレット` を取得します。
-
-2.  **リダイレクトURIの設定:**
+  
+2.  **リダイレクトURIの設定:**　LINEの項目がなかった、、、
     *   Supabaseのダッシュボードに戻り、`Authentication` > `Providers` > `LINE` を選択します。
     *   `Configuration`タブに表示されている `Redirect URL`（コールバックURL）をコピーします。
     *   LINE Developers Consoleの `LINEログイン設定` タブに移動し、`コールバックURL` の欄にコピーしたURLを貼り付けて `更新` します。
