@@ -1,3 +1,4 @@
+
 .item {
   display: flex;
   align-items: center;
@@ -13,6 +14,7 @@
   flex-grow: 1;
   margin-left: 10px;
 }
+
 
 /*重複してたから消した .deleteButton {
   background-color: #e24858;
