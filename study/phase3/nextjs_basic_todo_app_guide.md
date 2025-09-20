@@ -141,8 +141,25 @@ export default function TodoPage() {
 <br>
 
 ## 2日目：CSSで見た目を整える
-**実施日：2025/9/19**
+**実施日：2025/9/20**
 **学んだこと：**
+- CSSモジュールの概念
+ - ファイルごとに独立したモジュール（部品）として定義し、そのモジュールファイルを一つ一つインポートし、クラス名として指定したオブジェクトのプロパティにできる
+ - 使い方
+　　- ## 書き方のルール
+    1.  **ファイル名**: スタイルシートのファイル名を
+      `[任意の名前].module.css` とする。
+    2.  **インポート**:
+      CSSファイルをJavaScriptオブジェクトとしてインポート
+      する。
+      import styles from './Component.module.css';
+    3.  **適用**: JSXの`className`
+     属性に、インポートしたオブジェクトのプロパティとして
+     クラス名を指定する。
+
+      <div className={styles.container}>
+        <p className={styles.title}>Hello World</p>
+      </div>
 
 **今日のゴール：** CSS Modulesを使って、TODOアプリの見た目を整える！
 
@@ -361,6 +378,8 @@ TODOアプリらしい見た目になっていれば成功です！
 <br>
 
 ## 3日目：「状態」という考え方
+**実施日：2025/9/20**
+**学んだこと：**
 
 **今日のゴール：** `useState` を使って、TODOリストのデータを管理する！
 
@@ -1293,3 +1312,506 @@ Supabaseのテーブルエディタでデータがリアルタイムに変化す
 この10日間で、Next.jsを使った動的なTODOアプリをゼロから構築し、Reactの「状態」管理、コンポーネント間のデータ連携、そしてデータベースとの連携といった、Webアプリケーション開発の重要な概念を実践的に学びました。
 
 この経験は、あなたがNext.jsでさらに複雑なアプリケーションを開発していくための強力な土台となるでしょう。これからも、新しいアイデアを形にするために、楽しくコーディングを続けていきましょう！
+
+---
+
+# 応用編：ユーザー認証とマルチユーザー対応
+
+基礎編の完了、おめでとうございます！ここからは応用編です。
+現在のTODOアプリは誰でも使えてしまいますが、ここからの5日間でSupabaseの認証機能と連携し、「ユーザーごとに管理できるTODOアプリ」へと進化させましょう。
+
+## 目次（応用編）
+
+*   [11日目：Supabase Authでログイン機能の基礎を築く](#11日目supabase-authでログイン機能の基礎を築く)
+*   [12日目：ログインUIと認証状態の管理](#12日目ログインuiと認証状態の管理)
+*   [13日目：TODOリストとユーザーの紐付け](#13日目todoリストとユーザーの紐付け)
+*   [14日目：自分のタスクだけを操作可能にする (RLS)](#14日目自分のタスクだけを操作可能にする-rls)
+*   [15日目：ログイン状態でUIを制御する](#15日目ログイン状態でuiを制御する)
+
+---
+
+<br>
+
+## 11日目：Supabase Authでログイン機能の基礎を築く
+
+**今日のゴール：** Supabaseの認証機能を有効にし、サインアップ（ユーザー登録）機能を実装する！
+
+**ステップ1：Supabase Authを有効にする（手動作業）**
+
+1.  Supabaseのプロジェクトダッシュボードにアクセスします。
+2.  左のメニューから「Authentication」をクリックします。
+3.  「Providers」セクションで、「Email」がデフォルトで有効になっていることを確認します。必要であれば、Googleなどの他のプロバイダもここで有効にできます。
+
+これを有効にすると、Supabaseは自動的に `auth.users` というテーブルを作成し、ユーザー情報を管理してくれます。
+
+**ステップ2：ログインページの準備**
+
+基礎編で作成した `src/app/login/page.tsx` を、実際のログインフォームとして機能するように修正します。
+まずは、メールアドレスとパスワードを入力してユーザー登録（サインアップ）する機能を実装しましょう。
+
+```tsx
+// src/app/login/page.tsx
+
+'use client'; // ★ クライアントコンポーネントとして宣言
+
+import { useState } from 'react';
+import { supabase } from '@/utils/supabase/client'; // ★ supabaseクライアントをインポート
+import { useRouter } from 'next/navigation'; // ★ useRouterをインポート
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  const handleSignUp = async () => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (error) {
+      alert('エラーが発生しました：' + error.message);
+    } else {
+      alert('登録が完了しました。TODOページに移動します。');
+      router.push('/todo');
+    }
+  };
+
+  return (
+    <div>
+      <h1>ログインまたは新規登録</h1>
+      <div>
+        <label htmlFor="email">メールアドレス</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="password">パスワード</label>
+        <input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button onClick={handleSignUp}>新規登録</button>
+      {/* ログイン機能は後で実装します */}
+    </div>
+  );
+}
+```
+*   `'use client'`: `useState` や `onClick` などのインタラクティブな機能を使うため、クライアントコンポーネントとして宣言します。
+*   `supabase.auth.signUp`: Supabase Authが提供するユーザー登録用の関数です。
+
+**今日の確認**
+
+アプリを起動し、`/login` ページにアクセスしてください。メールアドレスとパスワードを入力して「新規登録」ボタンを押すと、Supabaseの `Authentication` -> `Users` に新しいユーザーが登録されることを確認しましょう。
+
+> **今日のまとめ**
+> Supabase Authを有効にし、`supabase.auth.signUp` を使うことで、簡単にユーザー登録機能を実装できた！
+
+<br>
+
+## 12日目：ログインUIと認証状態の管理
+
+**今日のゴール：** ログイン・ログアウト機能を実装し、アプリ全体でユーザーの認証状態を管理する！
+
+**ステップ1：ログイン機能の実装**
+
+昨日の `src/app/login/page.tsx` に、ログイン処理を追加します。
+
+```tsx
+// src/app/login/page.tsx (抜粋)
+
+// ... handleSignUpの下に追加
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      alert('エラーが発生しました：' + error.message);
+    } else {
+      // ログイン成功後、TODOページにリダイレクト
+      router.push('/todo');
+      router.refresh(); // サーバーコンポーネントを再描画させる
+    }
+  };
+
+// ... return文の中を変更
+  return (
+    <div>
+      {/* ... */}
+      <button onClick={handleSignUp}>新規登録</button>
+      <button onClick={handleLogin}>ログイン</button> {/* ★ 追加 */}
+    </div>
+  );
+// ...
+```
+*   `supabase.auth.signInWithPassword`: メールアドレスとパスワードでログインするための関数です。
+
+**ステップ2：認証状態を管理する**
+
+ユーザーがログインしているかどうかをアプリ全体で知る必要があります。`TodoPage` で現在のユーザー情報を取得してみましょう。
+
+```tsx
+// src/app/todo/page.tsx (抜粋)
+
+// ... imports
+import { User } from '@supabase/supabase-js'; // ★ User型をインポート
+
+export default function TodoPage() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null); // ★ ユーザー情報を管理するstate
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    const fetchTodos = async () => {
+      // ... (ここは後で修正)
+    };
+
+    checkUser();
+    fetchTodos();
+  }, []);
+
+// ...
+```
+*   `supabase.auth.getUser()`: 現在ログインしているユーザーの情報を取得します。サーバーサイドでもクライアントサイドでも使えます。
+
+**ステップ3：ログアウト機能の実装**
+
+`TodoPage` にログアウトボタンを追加します。
+
+```tsx
+// src/app/todo/page.tsx (抜粋)
+
+// ... imports
+import { useRouter } from 'next/navigation'; // ★ useRouterをインポート
+
+export default function TodoPage() {
+  // ... states
+  const router = useRouter(); // ★ routerインスタンスを取得
+
+  // ... useEffect
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push('/login'); // ログインページにリダイレクト
+  };
+
+  // ... other handlers
+
+  return (
+    <div className={styles.container}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className={styles.title}>TODOアプリ</h1>
+        {user && (
+          <div>
+            <span>{user.email}</span>
+            <button onClick={handleLogout} style={{ marginLeft: '10px' }}>ログアウト</button>
+          </div>
+        )}
+      </div>
+      {/* ... */}
+    </div>
+  );
+}
+```
+*   `supabase.auth.signOut()`: ユーザーをログアウトさせます。
+
+**今日の確認**
+
+新規登録したアカウントでログインできること、TODOページにメールアドレスとログアウトボタンが表示されること、ログアウトボタンを押すとログインページに戻ることを確認しましょう。
+
+> **今日のまとめ**
+> `signInWithPassword`, `signOut`, `getUser` を使い、ログイン・ログアウト機能と認証状態の管理を実装できた！
+
+<br>
+
+## 13日目：TODOリストとユーザーの紐付け
+
+**今日のゴール：** `todos` テーブルを修正し、どのユーザーが作成したタスクなのかを記録できるようにする！
+
+**ステップ1：`todos` テーブルに `user_id` カラムを追加（手動作業）**
+
+1.  Supabaseのプロジェクトダッシュボードで「Table Editor」に移動します。
+2.  `todos` テーブルを選択し、「Add column」をクリックします。
+3.  以下の設定で新しいカラムを追加します。
+    *   **Name**: `user_id`
+    *   **Type**: `uuid`
+4.  次に、この `user_id` が `auth.users` テーブルの `id` を参照するように、外部キー制約を追加します。
+    *   「Add foreign key relation」をクリックします。
+    *   **Table**: `users`
+    *   **Columns**: `id`
+    *   右側の `user_id` カラムの鎖アイコンをクリックしてリレーションを設定します。
+
+**ステップ2：タスク追加時に `user_id` を保存する**
+
+`handleAddTodo` 関数を修正し、新しいタスクを追加する際に、現在ログインしているユーザーのIDも一緒に保存するようにします。
+
+```tsx
+// src/app/todo/page.tsx (抜粋)
+
+// ...
+  const handleAddTodo = async (text: string) => {
+    if (!user) {
+      alert('ログインしてください。');
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('todos')
+      .insert([{ text, completed: false, user_id: user.id }]) // ★ user_id を追加
+      .select();
+
+    if (error) {
+      console.error('Error adding todo:', error);
+    } else if (data && data.length > 0) {
+      setTodos((prevTodos) => [...prevTodos, data[0]]);
+    }
+  };
+// ...
+```
+
+**ステップ3：ログイン中のユーザーのタスクのみを取得する**
+
+`fetchTodos` 関数を修正し、`user_id` が現在ログインしているユーザーのIDと一致するタスクのみを取得するようにします。
+
+```tsx
+// src/app/todo/page.tsx (抜粋)
+
+// ... useEffectの中
+    const fetchTodos = async (currentUser: User) => { // ★ currentUserを受け取る
+      const { data, error } = await supabase
+        .from('todos')
+        .select('*')
+        .eq('user_id', currentUser.id) // ★ user_idでフィルタリング
+        .order('id', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching todos:', error);
+      } else {
+        setTodos(data || []);
+      }
+      setLoading(false);
+    };
+
+    const checkUserAndFetchTodos = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      if (user) {
+        await fetchTodos(user);
+      } else {
+        setLoading(false);
+      }
+    };
+
+    checkUserAndFetchTodos();
+// ...
+```
+
+**今日の確認**
+
+複数のアカウントでユーザー登録し、それぞれのアカウントでログインしてタスクを追加してみてください。別のアカウントでログインすると、そのアカウントで作成したタスクだけが表示されることを確認しましょう。Supabaseの `todos` テーブルにも `user_id` が記録されているはずです。
+
+> **今日のまとめ**
+> テーブルに `user_id` カラムを追加し、API呼び出し時に `user_id` でフィルタリングすることで、ユーザーごとにデータを分離することができた！
+
+<br>
+
+## 14日目：自分のタスクだけを操作可能にする (RLS)
+
+**今日のゴール：** SupabaseのRow Level Security (RLS) を設定し、データベースレベルでデータアクセスを安全にする！
+
+これまでの実装では、クライアント側で表示を制御しているだけです。悪意のあるユーザーは、APIを直接叩くことで他人のタスクを操作できてしまう可能性があります。RLSは、それを防ぐための強力なセキュリティ機能です。
+
+**ステップ1：`todos` テーブルのRLSを有効にする（手動作業）**
+
+1.  Supabaseのダッシュボードで「Authentication」->「Policies」に移動します。
+2.  `todos` テーブルの横にある「Enable RLS」をクリックします。
+    *   **警告:** これを有効にすると、ポリシーを定義しない限り、`todos` テーブルへのすべてのアクセスが拒否されます。
+
+**ステップ2：SELECT（読み取り）ポリシーを作成する**
+
+「New Policy」をクリックし、「From scratch」を選択して、自分のタスクだけを読み取れるポリシーを作成します。
+
+*   **Policy name**: `Allow individual select access`
+*   **Allowed operation**: `SELECT`
+*   **USING expression**: `auth.uid() = user_id`
+
+`auth.uid()` は、現在認証されているユーザーのIDを返すSupabaseの関数です。これにより、「`user_id` カラムが自分のIDと一致する行」だけが `SELECT` できるようになります。
+
+**ステップ3：INSERT（追加）ポリシーを作成する**
+
+同様に、自分のタスクとしてのみ追加できるようにするポリシーを作成します。
+
+*   **Policy name**: `Allow individual insert access`
+*   **Allowed operation**: `INSERT`
+*   **WITH CHECK expression**: `auth.uid() = user_id`
+
+`WITH CHECK` は、`INSERT` や `UPDATE` の際に、新しい行がこの条件を満たしているかを確認します。
+
+**ステップ4：UPDATE（更新）とDELETE（削除）のポリシーを作成する**
+
+同様に、更新と削除のポリシーも作成します。
+
+*   **UPDATE Policy**:
+    *   **Policy name**: `Allow individual update access`
+    *   **Allowed operation**: `UPDATE`
+    *   **USING expression**: `auth.uid() = user_id`
+*   **DELETE Policy**:
+    *   **Policy name**: `Allow individual delete access`
+    *   **Allowed operation**: `DELETE`
+    *   **USING expression**: `auth.uid() = user_id`
+
+**今日の確認**
+
+RLSを設定した後も、アプリケーションがこれまで通り正常に動作することを確認してください（自分のタスクの追加、表示、更新、削除ができること）。RLSはバックエンドのセキュリティ層なので、正しく設定されていればユーザーから見た動作は変わりません。
+
+> **今日のまとめ**
+> Row Level Security (RLS) を設定することで、データベースレベルで堅牢なアクセスコントロールを実装し、アプリケーションのセキュリティを大幅に向上させることができた！
+
+<br>
+
+## 15日目：ログイン状態でUIを制御する
+
+**今日のゴール：** ログインしていないユーザーをTODOページから締め出し、UIを完成させる！
+
+**ステップ1：ミドルウェアで認証を強制する**
+
+Next.jsのミドルウェアを使い、特定のページへのアクセスに認証を要求するようにします。
+
+`src/middleware.ts` を開き、以下のように編集します。
+
+```typescript
+// src/middleware.ts
+
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function middleware(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // ★ ここからが重要
+  // ログインしておらず、かつ/todoページにアクセスしようとした場合
+  if (!user && request.nextUrl.pathname.startsWith('/todo')) {
+    // ログインページにリダイレクト
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+  // ログインしており、かつ/loginページにアクセスしようとした場合
+  if (user && request.nextUrl.pathname.startsWith('/login')) {
+    // TODOページにリダイレクト
+    return NextResponse.redirect(new URL('/todo', request.url))
+  }
+
+  return response
+}
+
+export const config = {
+  matcher: ['/todo', '/login'],
+}
+```
+*   このミドルウェアは、`/todo` または `/login` へのリクエストを監視します。
+*   ログインしていない状態で `/todo` にアクセスすると `/login` に飛ばされ、逆にログイン状態で `/login` にアクセスすると `/todo` に飛ばされます。
+
+**ステップ2：`TodoPage` のリダイレクト処理を削除**
+
+ミドルウェアがリダイレクトを処理してくれるので、`TodoPage` の `useEffect` 内でユーザーがいない場合に何かをする処理は不要になります。コードをシンプルにしましょう。
+
+```tsx
+// src/app/todo/page.tsx (抜粋)
+
+// ... useEffectの中
+    const checkUserAndFetchTodos = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      // ミドルウェアがリダイレクトするので、userがnullのケースは考慮不要
+      if (user) {
+        setUser(user);
+        await fetchTodos(user);
+      }
+      // userがnullでもローディングは解除する
+      setLoading(false);
+    };
+
+    checkUserAndFetchTodos();
+// ...
+```
+
+**今日の確認**
+
+ログアウトした状態でブラウザのアドレスバーに `/todo` と直接入力してみてください。自動的に `/login` ページにリダイレクトされれば成功です。逆に、ログインした状態で `/login` にアクセスしようとすると `/todo` にリダイレクトされることも確認しましょう。
+
+> **今日のまとめ**
+> Next.jsのミドルウェアを使うことで、サーバーサイドで認証状態をチェックし、ページのアクセス制御をスマートに実装できた！
+
+---
+
+**応用編コース完了、おめでとうございます！**
+
+この5日間で、あなたは単なるTODOアプリを、セキュアで本格的なマルチユーザー対応Webアプリケーションへと昇華させました。
+Supabase Authによる認証、RLSによる堅牢なデータ保護、そしてNext.jsミドルウェアによるアクセス制御など、実践的で重要な技術を習得しました。
+
+この知識と経験を武器に、さらに素晴らしいアプリケーション開発に挑戦してください！
