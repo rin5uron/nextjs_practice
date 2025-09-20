@@ -1,7 +1,7 @@
 // src/app/signin/page.tsx
 import styles from './signin-form.module.css';
 import GoogleLoginButton from '@/components/ui/GoogleLoginButton'; // Googleボタンをインポート
-import LineLoginButton from '@/components/ui/LineLoginButton';   // LINEボタンをインポート
+// import LineLoginButton from '@/components/ui/LineLoginButton';   // LINEボタンをインポート
 
 export default function AuthPage() {
   return (
@@ -12,7 +12,7 @@ export default function AuthPage() {
         {/* --- ソーシャルログインボタンを配置 --- */}
         <div className={styles.socialLogins}>
           <GoogleLoginButton />
-          <LineLoginButton />
+          {/* <LineLoginButton /> */}
         </div>
 
         <div className={styles.divider}>または</div>
