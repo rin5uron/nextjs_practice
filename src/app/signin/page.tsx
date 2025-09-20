@@ -7,7 +7,7 @@ export default function AuthPage() {
   return (
     <div className={styles.container}>
       <div className={styles.formWrapper}>
-        <h1 className={styles.title}>ログインまたは新規登録</h1>
+        <h1 className={styles.title}>ログインまたは新規登録【デプロイテスト】</h1>
 
         {/* --- ソーシャルログインボタンを配置 --- */}
         <div className={styles.socialLogins}>
