@@ -2,10 +2,14 @@
     display: flex;
     margin-bottom: 20px;
   }
-  
+  .input::placeholder {
+    color: #e4dede;
+  }
   .input {
     flex-grow: 1;
     padding: 10px;
+    font-size: 1rem;
+    color: #333;
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-right: 10px;
@@ -13,7 +17,7 @@
   
   .button {
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #9ec3ea;
     color: white;
     border: none;
     border-radius: 4px;
@@ -21,5 +25,5 @@
   }
   
   .button:hover {
-    background-color: #0056b3;
+    background-color: #539dec;
   }

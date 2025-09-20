@@ -14,8 +14,8 @@
   margin-left: 10px;
 }
 
-.deleteButton {
-  background-color: #dc3545;
+/*重複してたから消した .deleteButton {
+  background-color: #e24858;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -25,4 +25,4 @@
 
 .button:hover {
   background-color: #c82333;
-}
+} */

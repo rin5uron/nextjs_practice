@@ -143,6 +143,9 @@ export default function TodoPage() {
 ## 2日目：CSSで見た目を整える
 **実施日：2025/9/20**
 **学んだこと：**
+- 入力フォームのデザイン
+　- .input::placeholderで実際に打ち込む文字と元々デフォで入れる文字の色を変えた
+　- プレースホルダーという概念はよく出てくるしクラス名にもなっているので覚えておく
 - CSSモジュールの概念
  - ファイルごとに独立したモジュール（部品）として定義し、そのモジュールファイルを一つ一つインポートし、クラス名として指定したオブジェクトのプロパティにできる
  - 使い方
@@ -197,13 +200,20 @@ touch src/app/todo/page.module.css
 
 `src/app/todo/page.tsx` を修正して、このCSSを適用します。
 
+> **【教材の訂正】**
+> 以下のコードブロックでは、`styles`オブジェクトを読み込むための`import`文が抜けていました。正しくは、`import styles from "./page.module.css";`を追加する必要があります。
+
 ```tsx
 // src/app/todo/page.tsx
 
-) {
+import AddTodoForm from "@/components/todo/AddTodoForm";
+import TodoList from "@/components/todo/TodoList";
+import styles from "./page.module.css"; // ★ 訂正：この行を追加
+
+export default function TodoPage() {
   return (
-    <div className={styles.container}> {/* ★ 変更 */}
-      <h1 className={styles.title}>TODOアプリ</h1> {/* ★ 変更 */}
+    <div className={styles.container}>
+      <h1 className={styles.title}>TODOアプリ</h1>
       <AddTodoForm />
       <TodoList />
     </div>
@@ -221,9 +231,12 @@ touch src/components/todo/AddTodoForm.module.css
 
 `src/components/todo/AddTodoForm.module.css` に以下の内容を記述します。
 
+> **【教材の訂正】**
+> CSS Modulesではタグセレクタ（`form`）は使えません。クラスセレクタ（`.form`）に修正します。
+
 ```css
 /* src/components/todo/AddTodoForm.module.css */
-.form {
+~~form~~ .form { /* ★ 訂正 */
   display: flex;
   margin-bottom: 20px;
 }
@@ -252,6 +265,12 @@ touch src/components/todo/AddTodoForm.module.css
 
 `src/components/todo/AddTodoForm.tsx` を修正して、このCSSを適用します。
 
+> **【教材の訂正】**
+> 以下のコードは構文エラーが含まれていました。正しいコードに修正します。
+
+<details>
+<summary>誤っていたコード（クリックで展開）</summary>
+
 ```tsx
 // src/components/todo/AddTodoForm.tsx
 
@@ -270,6 +289,22 @@ export default function TodoPage(ype="submit" className={styles.button}>追加</
   );
 }
 ```
+</details>
+
+```tsx
+// 【修正後】src/components/todo/AddTodoForm.tsx
+
+import styles from "./AddTodoForm.module.css";
+
+export default function AddTodoForm() {
+  return (
+    <form className={styles.form}>
+      <input type="text" placeholder="新しいタスクを追加" className={styles.input} />
+      <button type="submit" className={styles.button}>追加</button>
+    </form>
+  );
+}
+```
 
 **ステップ3：`TodoList` と `TodoItem` のスタイルを整える**
 
@@ -281,12 +316,24 @@ touch src/components/todo/TodoList.module.css
 
 `src/components/todo/TodoList.module.css` に以下の内容を記述します。
 
+> **【教材の訂正】**
+> 当初のコードには、`TodoItem`のスタイルが重複して定義されていました。`TodoList`の責務はリスト全体（`<ul>`）のスタイリングなので、重複分は削除（またはコメントアウト）するのが適切です。
+
 ```css
 /* src/components/todo/TodoList.module.css */
 .list {
   list-style: none;
   padding: 0;
 }
+
+/* 
+  以下のスタイルは TodoItem.module.css と重複するため不要
+.item { ... }
+.item:last-child { ... }
+.text { ... }
+.deleteButton { ... }
+.button:hover { ... }
+*/
 ```
 
 `src/components/todo/TodoItem.tsx` と同じディレクトリに、`TodoItem.module.css` を作成します。
@@ -296,6 +343,9 @@ touch src/components/todo/TodoItem.module.css
 ```
 
 `src/components/todo/TodoItem.module.css` に以下の内容を記述します。
+
+> **【教材の訂正】**
+> 削除ボタンのホバー効果を正しく適用するため、セレクタを`.button:hover`から`.deleteButton:hover`に修正します。
 
 ```css
 /* src/components/todo/TodoItem.module.css */
@@ -324,7 +374,7 @@ touch src/components/todo/TodoItem.module.css
   cursor: pointer;
 }
 
-.button:hover {
+~~.button:hover~~ .deleteButton:hover { /* ★ 訂正 */
   background-color: #c82333;
 }
 ```
@@ -372,8 +422,11 @@ export default function TodoItem() {
 `pnpm dev` で開発サーバーを起動し、ブラウザで `http://localhost:3000/todo` にアクセスしてください。
 TODOアプリらしい見た目になっていれば成功です！
 
+
+
 > **今日のまとめ**
 > CSS Modulesを使って、コンポーネントごとに独立したスタイルを適用し、見た目を整えることができた！
+自分でデザインを変更し、ファイル構造に慣れた
 
 <br>
 

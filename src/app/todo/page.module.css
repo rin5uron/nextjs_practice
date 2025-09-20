@@ -10,7 +10,9 @@
 }
 
 .title {
-  text-align: center;
+  font-family: 'apple', Courier, monospace;
+  text-align: left;
   color: #333;
+  font-size: 2rem;
   margin-bottom: 30px;
 }
