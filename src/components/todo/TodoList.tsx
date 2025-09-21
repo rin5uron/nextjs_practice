@@ -10,15 +10,17 @@ interface Todo {
 
 interface TodoListProps {
   todos: Todo[];
+  onDelete: (id: number) => void;
 }
 
 // ★ propsを受け取るように変更
-export default function TodoList({ todos }: TodoListProps) {
+export default function TodoList({ todos, onDelete }: TodoListProps) {
   return (
     <ul className={styles.list}> {/* ★ 変更 */}
       {/* ★ todos配列をmapで回してTodoItemを表示 */}
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <TodoItem key={todo.id} todo={todo} 
+        onDelete={onDelete}/>
       ))}
     </ul>
   );

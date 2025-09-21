@@ -607,6 +607,9 @@ export default function TodoItem({ todo }: TodoItemProps) {
 <br>
 
 ## 4日目：コンポーネント間でデータを渡す
+**実施日：2025/9/21**
+**学んだこと：**
+- "use client";
 
 **今日のゴール：** 親から子へ「Props」を使って、タスク情報を渡す方法を学ぶ！
 
