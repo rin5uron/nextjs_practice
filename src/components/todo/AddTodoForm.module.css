@@ -3,7 +3,7 @@
     margin-bottom: 20px;
   }
   .input::placeholder {
-    color: #e4dede;
+    color: #aaa;
   }
   .input {
     flex-grow: 1;
