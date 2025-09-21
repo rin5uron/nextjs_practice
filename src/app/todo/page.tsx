@@ -24,7 +24,7 @@ export default function TodoPage() {
   return (
     <div className={styles.container}> {/* ★ CSS Modulesを使っている */}
       <h1 className={styles.title}>TODO</h1> {/* ★CSS Modulesを使っている */}
-      <AddTodoForm />
+      <AddTodoForm onAddTodo={handleAddTodo} />
       <TodoList todos={todos} onDelete={handleDeleteTodo} />
     </div>
   );
