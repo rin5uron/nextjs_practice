@@ -54,15 +54,15 @@ export default function TodoPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>TODOアプリ</h1>
-        <p>読み込み中...</p>
+        <h1 className={styles.title}>TODO</h1>
+        <p>loading...</p>
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>TODOアプリ</h1>
+      <h1 className={styles.title}>TODO</h1>
       <AddTodoForm onAddTodo={handleAddTodo} />
       <TodoList
         todos={todos}
