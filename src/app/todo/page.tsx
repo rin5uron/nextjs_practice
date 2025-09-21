@@ -2,14 +2,35 @@
 import AddTodoForm from "@/components/todo/AddTodoForm";
 import TodoList from "@/components/todo/TodoList";
 import styles from "./page.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/client"; // ★ ここを修正
+
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
 
 export default function TodoPage() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: "牛乳を買う", completed: false },
-    { id: 2, text: "Next.jsの勉強", completed: true },
-    { id: 3, text: "運動する", completed: false },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]); // ★ 型を追加
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient(); // ★ ここでクライアントを生成
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const { data, error } = await supabase.from("todos").select("*").order("id", { ascending: true });
+      if (error) {
+        console.error("Error fetching todos:", error);
+      } else {
+        setTodos(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchTodos();
+  }, []);
+
   const handleDeleteTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -21,11 +42,33 @@ export default function TodoPage() {
     };
     setTodos([...todos, newTodo]); // 既存のリストに新しいタスクを追加
   };
+
+  const handleToggleComplete = (id: number) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>TODOアプリ</h1>
+        <p>読み込み中...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.container}> {/* ★ CSS Modulesを使っている */}
-      <h1 className={styles.title}>TODO</h1> {/* ★CSS Modulesを使っている */}
+    <div className={styles.container}>
+      <h1 className={styles.title}>TODOアプリ</h1>
       <AddTodoForm onAddTodo={handleAddTodo} />
-      <TodoList todos={todos} onDelete={handleDeleteTodo} />
+      <TodoList
+        todos={todos}
+        onDelete={handleDeleteTodo}
+        onToggleComplete={handleToggleComplete} // ★ 追加
+      />
     </div>
   );
 }
