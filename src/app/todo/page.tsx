@@ -31,24 +31,57 @@ export default function TodoPage() {
     fetchTodos();
   }, []);
 
-  const handleDeleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleDeleteTodo = async (id: number) => { // ★ asyncを追加
+    const { error } = await supabase.from("todos").delete().eq("id", id); // ★ 変更
+    if (error) {
+      console.error("Error deleting todo:", error);
+    } else {
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id)); // ★ 変更: 成功したらUIを更新
+    }
   };
-  const handleAddTodo = (text: string) => {
-    const newTodo = {
-      id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1, // ユニークなIDを生成
-      text,
-      completed: false,
-    };
-    setTodos([...todos, newTodo]); // 既存のリストに新しいタスクを追加
+  const handleAddTodo = async (text: string) => { // ★ asyncを追加
+    const { data, error } = await supabase.from("todos").insert([{ text, completed: false }]).select(); // ★ 変更
+    if (error) {
+      console.error("Error adding todo:", error);
+    } else if (data && data.length > 0) {
+      setTodos((prevTodos) => [...prevTodos, data[0]]); // ★ 変更: Supabaseから返されたデータを使用
+    }
   };
+  // const handleAddTodo = (text: string) => {
+  //   const newTodo = {
+  //     id: todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1, // ユニークなIDを生成
+  //     text,
+  //     completed: false,
+  //   };
+  //   setTodos([...todos, newTodo]); // 既存のリストに新しいタスクを追加
+  // };
 
-  const handleToggleComplete = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  // const handleToggleComplete = (id: number) => {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todo.id === id ? { ...todo, completed: !todo.completed } : todo
+  //     )
+  //   );
+  // };
+  const handleToggleComplete = async (id: number) => { // ★ asyncを追加
+    const todoToUpdate = todos.find((todo) => todo.id === id);
+    if (!todoToUpdate) return;
+
+    const { error } = await supabase
+      .from("todos")
+      .update({ completed: !todoToUpdate.completed }) // ★ 変更
+      .eq("id", id); // ★ 変更
+
+    if (error) {
+      console.error("Error updating todo:", error);
+    }
+    else {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: !todoToUpdate.completed } : todo
+        )
+      );
+    } // ★ 変更: 成功したらUIを更新
   };
 
   if (loading) {
